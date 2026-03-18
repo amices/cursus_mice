@@ -1,0 +1,173 @@
+---
+title: "Beslissen met onvolledige informatie"
+subtitle: "Missende data en multipele imputatie met `mice`"
+format: 
+  html:
+    embed-resources: true
+filters:
+  - toggle
+toggle:
+  output-toggle: true    # Enable toggle functionality
+  output-hidden: true   # Show outputs initially (default)
+  output-sync: true     # Individual control (default)
+---
+
+## Multipele imputatie: het algemene idee
+
+Het hoorcollege van dit deel is beschikbaar [via deze link](slides_02_imputation.qmd){target="_blank"}.
+
+
+<!--TODO: toevoegen deel van vignette 1, nalopen, deel naar tutorial 3.
+TODO: Check of hier nog extra plotje in kan, boxplot oid misschien. -->
+
+<!-- - Flexibele modellen voor multipele imputatie  -->
+<!-- - Visualisatie met ggmice  -->
+<!-- - +/- 20-min practical: multipele imputatie met mice; modelspecificatie  -->
+
+The aim of this tutorial is to enhance your understanding of multiple imputation, in general. You will learn how to pool the results of analyses performed on multiply-imputed data, how to approach different types of data and how to avoid the pitfalls researchers may fall into. The main objective is to increase your knowledge and understanding on applications of multiple imputation. No previous experience with `R` is required. 
+
+---
+
+**0. Setup.**
+
+We start by loading the necessary packages and fixing the random seed to allow for our outcomes to be replicable. 
+```{r, message=FALSE, warning=FALSE}
+library(mice)
+library(ggmice)
+library(ggplot2)
+set.seed(123)
+```
+
+**1.  Let us impute the missing data in the `nhanes` dataset**
+
+```{r, cache=TRUE}
+imp <- mice(nhanes)
+imp
+```
+
+The imputations are now done. As you can see, the algorithm ran for 5 iterations (the default) and presented us with 5 imputations for each missing datum. For the rest of this document we will omit printing of the iteration cycle when we run `mice`. We do so by adding `print = FALSE` to the `mice` call. 
+
+The object `imp` contains a multiply imputed data set (of class `mids`). It encapsulates all information from imputing the `nhanes` dataset, such as the original data, the imputed values, the number of missing values, number of iterations, and so on.
+
+To obtain an overview of the information stored in the object
+`imp`, use the `attributes()` function:
+```{r, cache = FALSE}
+attributes(imp)
+```
+For example, the original data are stored as
+```{r, cache = FALSE}
+imp$data
+```
+and the imputations are stored as
+```{r, cache = FALSE}
+imp$imp
+```
+
+---
+
+**2. Extract the completed data**
+
+By default, `mice()` calculates five (*m* = 5) imputed data sets. In order to get the third imputed data set, use the `complete()` function
+```{r, cache=TRUE}
+c3 <- complete(imp, 3) 
+plot_pattern(c3)
+```
+The collection of the $m$ imputed data sets can be exported by function
+`complete()` in long, broad and repeated formats. 
+For example, 
+```{r, cache=TRUE}
+c.long <- complete(imp, "long")  
+c.long
+```
+and
+```{r, cache=TRUE}
+c.broad <- complete(imp, "broad")
+c.broad
+```
+are completed data sets in long and broad format, respectively. See `?complete` for more detail.
+
+---
+
+**3. Vary the number of imputations.**
+
+The number of imputed data sets can be specified by the `m = ...` argument. For example, to create just three imputed data sets, specify
+```{r, cache=FALSE}
+imp <- mice(nhanes, m = 3, print = FALSE)
+```
+
+---
+
+**4. Change the predictor matrix**
+
+The predictor matrix is a square matrix that specifies the variables that are used to impute each incomplete variable. Let us have a look at the predictor matrix that was used
+```{r, cache = FALSE}
+imp$pred
+```
+Each variable in the data has a row and a column in the predictor matrix. A value `1` indicates that the column variable was used to impute the row variable. For example, the `1` at entry `[bmi, age]` indicates that variable `age` was used to impute the incomplete variable `bmi`. Note that the diagonal is zero because a variable is not allowed to impute itself. The row of `age` contains all zeros because there were no missing values in `age`. `mice` gives you complete control over the predictor matrix, enabling you to choose your own predictor relations. This can be very useful, for example, when you have many variables or when you have clear ideas or prior knowledge about relations in the data at hand. You can use `mice()` to give you the initial predictor matrix, and change it afterwards, without running the algorithm. This can be done by typing
+```{r, cache=FALSE}
+ini <- mice(nhanes, maxit = 0, print = FALSE)
+pred <- ini$pred
+pred
+```
+The object `pred` contains the predictor matrix from an initial run of `mice` with zero iterations, specified by `maxit = 0`. Altering the predictor matrix and returning it to the mice algorithm is very simple. For example, the following code removes the variable `hyp` from the set of predictors, but still leaves it to be predicted by the other variables.
+```{r, cache = FALSE}
+pred[ ,"hyp"] <- 0
+pred
+```
+The predictor matrix can be visualized with
+```{r}
+plot_pred(pred)
+```
+Use your new predictor matrix in `mice()` as follows
+```{r, cache=FALSE}
+imp <- mice(nhanes, pred = pred, print = FALSE)
+```
+There is a special function called `quickpred()` for a quick
+selection procedure of predictors, which can be handy for datasets
+containing many variables. See `?quickpred` for more
+info. Selecting predictors according to data relations with a minimum
+correlation of $\rho=.30$ can be
+done by
+```{r, cache=FALSE}
+ini <- mice(nhanes, pred = quickpred(nhanes, mincor = .3), print = FALSE)
+ini$pred
+```
+For large predictor matrices, it can be useful to export them
+to Microsoft Excel for easier configuration (e.g. see the
+`xlsx` package for easy exporting and importing of Excel files).
+
+Visualizing the predictor matrix in `R` is done with
+```{r}
+plot_pred(ini$pred, method = ini$meth)
+```
+
+---
+
+**5. Some diagnostic checking. Use function `ggmice()`.**
+
+Generally, one would prefer for the imputed data to be plausible values, i.e. values that could have
+been observed if they had not been missing. In order to form an idea about plausibility, one may check the imputations and compare them against the observed values. If we are willing to assume that
+the data are missing completely at random (MCAR), then the imputations should have the same distribution as the observed data. In general, distributions may be different because the missing
+data are MAR (or even MNAR). However, very large discrepancies need to be screened. Let us plot the observed and imputed data of `chl` by
+```{r, cache = FALSE}
+ggmice(imp, aes(.imp, chl)) +
+  geom_jitter(width = 0.1, height = 0)
+```
+
+The convention is to plot observed data in blue and the imputed data in red. The figure graphs the observed data values of `chl` and the imputed values. Since the PMM method draws imputations from the observed data, imputed values have the same gaps as in the observed data, and are always within the range of the observed data. The figure indicates that the distributions of the imputed and the observed values are similar. The observed data have a particular feature that, for some reason, the data cluster around the value of 187. The imputations reflect this feature, and are close to the data. Under MCAR, univariate distributions of the observed and imputed data are expected to be identical. Under MAR, they can be different, both in location and spread, but their multivariate distribution is assumed to be identical. There are many other ways to look at the imputed data.
+
+The following command creates the graph from the previous step for each of the variables in the dataset. 
+```{r, cache = FALSE}
+purrr::map(names(imp$data), ~ {
+  ggmice(imp, aes(x = .imp, y = .data[[.x]])) +
+    geom_jitter(width = 0.1, height = 0) +
+    labs(x = "Imputation number")
+})
+```
+<!-- Remember that `bmi` was imputed by Bayesian linear regression and (the range of) imputed values may therefore be different than observed values.  -->
+
+---
+
+**References**
+
+Rubin, D. B. *Multiple imputation for nonresponse in surveys*. John Wiley & Sons, 1987. [Amazon](http://www.amazon.com/Multiple-Imputation-Nonresponse-Surveys-Donald/dp/0471655740/ref=sr_1_1?ie=UTF8&qid=1434466788&sr=8-1&keywords=Multiple+imputation+for+nonresponse+in+surveys)

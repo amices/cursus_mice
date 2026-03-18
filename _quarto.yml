@@ -1,0 +1,30 @@
+project:
+  type: website
+  output-dir: docs
+  render:  
+    - "*.qmd"
+    - "!lectures/"
+
+website:
+  title: ""
+  sidebar:
+    style: "floating"
+    logo: UU_logo.png
+    contents:
+      - href: 00_index.qmd
+        text: "Overzicht"
+      - href: 00_requirements.qmd
+        text: "Installatie"
+      - href: 01_missingness.qmd
+        text: "I. Missende data"
+      - href: 02_imputation.qmd
+        text: "II. Imputatie"
+      - href: 03_inference.qmd
+        text: "III. Inferentie"
+      - href: 04_takeaways.qmd
+        text: "Take aways"
+
+format:
+  html:
+    theme: cosmo
+    toc: true

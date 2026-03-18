@@ -1,0 +1,35 @@
+---
+title: "Beslissen met onvolledige informatie"
+subtitle: "Missende data en multipele imputatie met `mice`"
+format: 
+  html:
+    embed-resources: true
+---
+
+## Overzicht
+
+[I. Omgaan met onvolledige informatie](01_missingness.qmd)
+
+- Verschillende soorten missende data en missende data mechanismes
+- Ad-hoc fixes: listwise deletion, mean imputatie, multipele imputatie
+- +/- 20-min practical: data laden, listwise deletion en mean imputation
+
+[II. Multipele imputatie: Multivariate](02_imputation.qmd) 
+- Flexibele modellen voor multipele imputatie
+- Visualisatie met ggmice
+- +/- 20-min practical: multipele imputatie met mice; modelspecificatie
+
+[III. Correcte inferenties met onvolledige informatie](03_inference.qmd)
+- Modelevaluatie (met ggmice), en pooling
+- +/- 20-min practical: inferentie en evaluatie
+    
+
+## Leerdoelen
+
+Na afloop van deze cursus: 
+
+- Begrijpen deelnemers welke effecten ontbrekende data kunnen hebben op de uitkomsten en betrouwbaarheid van statistische analyses. 
+- Kunnen deelnemers vaststellen of de ontbrekende waarden in hun eigen dataset een probleem vormen, op basis van type, omvang en patroon van de missende data. 
+- Hebben deelnemers handvatten (in R) om missende data problemen binnen hun eigen onderzoek op te lossen teneinde valide onderzoeksresultaten te kunnen rapporteren. 
+- Kunnen deelnemers beoordelen of de toegepaste technieken adequaat zijn gegeven hun onderzoekscontext en dataset. 
+- Zijn deelnemers in staat in te schatten wanneer het probleem van missing data de complexiteit overstijgt van wat zij zelfstandig kunnen oplossen, en wanneer het raadplegen van een statistisch expert nodig is.

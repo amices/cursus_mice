@@ -1,0 +1,64 @@
+---
+title: "Beslissen met onvolledige informatie"
+subtitle: "Missende data en multipele imputatie met `mice`"
+author: "Amices - Missing Data research group"
+institute: "Universiteit Utrecht"
+format: 
+  revealjs:
+    embed-resources: true
+    progress: true
+    logo: UU_logo.png
+    footer: "Beslissen met onvolledige informatie - Methoden & Statistiek, Universiteit Utrecht"
+    slide-number: true
+    show-slide-number: all
+    incremental: true
+    fontsize: 22pt
+    title-slide-attributes:
+      data-background-image: img/bg.jpg
+      data-background-size: contain
+---
+
+# Takeaways {background-color="#FFCD00"}
+
+## Missende data zijn een probleem!
+
+- Wanneer waardes ontbreken, kan je je statistische analyse niet voltooien
+
+- Niks doen is geen optie
+
+- Ad hoc oplossingen zijn suboptimaal
+    + Reduce information
+    + Lower statistical power
+    + Distort relationships between variables
+
+## Multipele imputatie is een oplossing
+
+- Haalt missing data probleem en data-analyse probleem uit elkaar
+
+- Flexibel: voor elke variabele een gepaste oplossing
+
+- Vervangt missende waarden door trekkingen uit een verdeling
+    + Deze trekkingen representeren onzekerheid over de onderliggende, maar ontbrekende waarde
+    + Correcte puntschattingen en variantieschattingen
+
+- `mice` maakt het makkelijk om data te imputeren en geimputeerde data te analyseren
+
+## Multipele imputatie workflow
+
+![](img/flow.png)
+
+# Maar multipele imputatie is geen wondermiddel {background-color="#FFCD00"}
+
+Think!
+
+- Model specificatie
+
+- Model evaluatie
+
+# Dank voor jullie participatie
+
+Follow-up vragen:
+
+- [h.i.oberman@uu.nl](mailto:h.i.oberman@uu.nl)
+
+- [t.b.volker@uu.nl](mailto:t.b.volker@uu.nl)

@@ -1,0 +1,23 @@
+---
+title: "Beslissen met onvolledige informatie"
+subtitle: "Missende data en multipele imputatie met `mice`"
+format: 
+  html:
+    embed-resources: true
+---
+
+## Take aways
+
+Vandaag heb je geleerd over de effecten van ontbrekende data. Als je meer wilt leren over ontbrekende gegevens en imputatie, lees dan verder op deze pagina.
+
+De take-away slides kan je vinden [via deze link](slides_04_takeaway.qmd){target="_blank"}.
+
+## Further reading
+
+The Missing Data team at Utrecht University develops the `mice` software and related resources. Almost all of our work is available for free via [amices.org](https://amices.org).
+
+To deepen your understanding of missing data mechanisms, multiple imputation, and the practical use of the R package *mice*, read Stef van Buuren’s book *Flexible Imputation of Missing Data* (2018) via [https://stefvanbuuren.name/fimd/](https://stefvanbuuren.name/fimd/). This book provides both theoretical foundations and hands-on examples using R, including extensive coverage of the algorithms implemented in *mice*, diagnostics for imputed datasets, and guidance on evaluating model performance after imputation.
+
+The GitHub repository for *mice* ([https://github.com/amices/mice](https://github.com/amices/mice)) provides access to development updates, example workflows, and a community forum for discussing implementation details and troubleshooting.
+
+For those who are not convinced of using R after today, there is also imputation methodology available in SPSS. The [IBM SPSS Missing Data documentation](https://www.ibm.com/docs/en/spss-statistics/29.0.0?topic=data-handling-missing) describes the methods SPSS uses to estimate and impute missing data, including a version of the *mice* algorithm, called fully conditional specification (FCS). These manuals are accessible through IBM’s Knowledge Center or within the SPSS Help system under [“Multiple Imputation”](https://www.ibm.com/docs/en/spss-statistics/29.0.0?topic=values-multiple-imputation).
