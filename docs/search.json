@@ -21,46 +21,18 @@
     "text": "Multipele imputatie workflow"
   },
   {
-    "objectID": "slides_02_imputation.html#recap",
-    "href": "slides_02_imputation.html#recap",
-    "title": "Data challenges (OVP)",
-    "section": "Recap",
-    "text": "Recap\n\nWhat is missing data?\nStrategies for dealing with missing data"
-  },
-  {
-    "objectID": "slides_02_imputation.html#incomplete-sample",
-    "href": "slides_02_imputation.html#incomplete-sample",
-    "title": "Data challenges (OVP)",
-    "section": "Incomplete sample",
-    "text": "Incomplete sample"
-  },
-  {
-    "objectID": "slides_02_imputation.html#missingness-matrix",
-    "href": "slides_02_imputation.html#missingness-matrix",
-    "title": "Data challenges (OVP)",
-    "section": "Missingness matrix",
-    "text": "Missingness matrix"
-  },
-  {
-    "objectID": "slides_02_imputation.html#strategies",
-    "href": "slides_02_imputation.html#strategies",
-    "title": "Data challenges (OVP)",
-    "section": "Strategies",
-    "text": "Strategies\n\nPrevention\nIgnoring missing data\nTreating missing data\n\nDeletion-based methods\nWeighting\nLikelihood-based methods\nAd-hoc imputation methods\nMultiple imputation"
-  },
-  {
     "objectID": "slides_02_imputation.html#outline",
     "href": "slides_02_imputation.html#outline",
     "title": "Data challenges (OVP)",
     "section": "Outline",
-    "text": "Outline\n\nWhat is multiple imputation?\nHow can you use multiple imputation?"
+    "text": "Outline\n\nHow to generate multiple imputed data\n\nIf only variable has missing data\nIf many variables have missing data"
   },
   {
     "objectID": "slides_02_imputation.html#multiple-imputation",
     "href": "slides_02_imputation.html#multiple-imputation",
     "title": "Data challenges (OVP)",
     "section": "Multiple imputation",
-    "text": "Multiple imputation\n\nMissing values may be ‘imputed’, i.e. filled in\nOne imputation cannot be correct in general\nTherefore, impute each missing value \\(m\\) times\nVariation between the \\(m\\) imputed values reflects our ignorance about the unknown value"
+    "text": "Multiple imputation\n\nCore idea: Replace each missing value by m &gt; 1 plausible draws rather than a single estimate.\nUncertainty representation: The variability across these draws reflects the inherent uncertainty about the unobserved true value.\nImplementation: For each missing cell, generate m imputations (e.g., m = 20), resulting in m completed datasets for downstream analysis."
   },
   {
     "objectID": "slides_02_imputation.html#multiple-imputation-workflow",
@@ -70,32 +42,18 @@
     "text": "Multiple imputation workflow"
   },
   {
-    "objectID": "slides_02_imputation.html#multiple-imputation---1987",
-    "href": "slides_02_imputation.html#multiple-imputation---1987",
+    "objectID": "slides_02_imputation.html#relation-temperature---gas",
+    "href": "slides_02_imputation.html#relation-temperature---gas",
     "title": "Data challenges (OVP)",
-    "section": "Multiple imputation - 1987",
-    "text": "Multiple imputation - 1987"
+    "section": "Relation temperature - gas",
+    "text": "Relation temperature - gas"
   },
   {
-    "objectID": "slides_02_imputation.html#multiple-imputation-1",
-    "href": "slides_02_imputation.html#multiple-imputation-1",
+    "objectID": "slides_02_imputation.html#delete-gas-observation-47",
+    "href": "slides_02_imputation.html#delete-gas-observation-47",
     "title": "Data challenges (OVP)",
-    "section": "Multiple imputation",
-    "text": "Multiple imputation\nAdvantages:\n\nCorrect point and variance estimates\nSplits missing data problem from complete-data analysis\nTheoretical properties well established\nFlexible, widely applicable\n\n\nDisadvantages:\n\nNeed to create and work with multiple imputed data sets\nMay not always be most efficient"
-  },
-  {
-    "objectID": "slides_02_imputation.html#multiple-imputation-in-practice",
-    "href": "slides_02_imputation.html#multiple-imputation-in-practice",
-    "title": "Data challenges (OVP)",
-    "section": "Multiple imputation in practice",
-    "text": "Multiple imputation in practice\nData: MASS::whiteside"
-  },
-  {
-    "objectID": "slides_02_imputation.html#delete-gas-consumption-of-one-case",
-    "href": "slides_02_imputation.html#delete-gas-consumption-of-one-case",
-    "title": "Data challenges (OVP)",
-    "section": "Delete gas consumption of one case",
-    "text": "Delete gas consumption of one case"
+    "section": "Delete gas, observation 47",
+    "text": "Delete gas, observation 47"
   },
   {
     "objectID": "slides_02_imputation.html#predict-from-regression-line",
@@ -105,32 +63,39 @@
     "text": "Predict from regression line"
   },
   {
-    "objectID": "slides_02_imputation.html#stochastic-regresson-imputation-sri",
-    "href": "slides_02_imputation.html#stochastic-regresson-imputation-sri",
+    "objectID": "slides_02_imputation.html#prediction-noise",
+    "href": "slides_02_imputation.html#prediction-noise",
     "title": "Data challenges (OVP)",
-    "section": "Stochastic regresson imputation (SRI)",
-    "text": "Stochastic regresson imputation (SRI)"
+    "section": "Prediction + noise",
+    "text": "Prediction + noise"
   },
   {
-    "objectID": "slides_02_imputation.html#sri-parameter-uncertainty-bayesian",
-    "href": "slides_02_imputation.html#sri-parameter-uncertainty-bayesian",
+    "objectID": "slides_02_imputation.html#prediction-noise-parameter-draw",
+    "href": "slides_02_imputation.html#prediction-noise-parameter-draw",
     "title": "Data challenges (OVP)",
-    "section": "SRI + parameter uncertainty (Bayesian)",
-    "text": "SRI + parameter uncertainty (Bayesian)"
+    "section": "Prediction + noise + parameter draw",
+    "text": "Prediction + noise + parameter draw"
   },
   {
-    "objectID": "slides_02_imputation.html#bayesian-sri-with-two-predictors",
-    "href": "slides_02_imputation.html#bayesian-sri-with-two-predictors",
+    "objectID": "slides_02_imputation.html#imputation-with-two-predictors",
+    "href": "slides_02_imputation.html#imputation-with-two-predictors",
     "title": "Data challenges (OVP)",
-    "section": "Bayesian SRI with two predictors",
-    "text": "Bayesian SRI with two predictors"
+    "section": "Imputation with two predictors",
+    "text": "Imputation with two predictors"
   },
   {
-    "objectID": "slides_02_imputation.html#predictive-mean-matching-pmm",
-    "href": "slides_02_imputation.html#predictive-mean-matching-pmm",
+    "objectID": "slides_02_imputation.html#drawing-from-observed-data",
+    "href": "slides_02_imputation.html#drawing-from-observed-data",
     "title": "Data challenges (OVP)",
-    "section": "Predictive mean matching (PMM)",
-    "text": "Predictive mean matching (PMM)"
+    "section": "Drawing from observed data",
+    "text": "Drawing from observed data"
+  },
+  {
+    "objectID": "slides_02_imputation.html#predictive-mean-matching",
+    "href": "slides_02_imputation.html#predictive-mean-matching",
+    "title": "Data challenges (OVP)",
+    "section": "Predictive mean matching",
+    "text": "Predictive mean matching"
   },
   {
     "objectID": "slides_02_imputation.html#pmm-add-two-regression-lines",
@@ -140,18 +105,18 @@
     "text": "PMM: Add two regression lines"
   },
   {
-    "objectID": "slides_02_imputation.html#pmm-predict-from-two-factors",
-    "href": "slides_02_imputation.html#pmm-predict-from-two-factors",
+    "objectID": "slides_02_imputation.html#pmm-predicted-at-5-degrees",
+    "href": "slides_02_imputation.html#pmm-predicted-at-5-degrees",
     "title": "Data challenges (OVP)",
-    "section": "PMM: Predict from two factors",
-    "text": "PMM: Predict from two factors"
+    "section": "PMM: Predicted at 5 degrees",
+    "text": "PMM: Predicted at 5 degrees"
   },
   {
-    "objectID": "slides_02_imputation.html#pmm-define-a-matching-range",
-    "href": "slides_02_imputation.html#pmm-define-a-matching-range",
+    "objectID": "slides_02_imputation.html#pmm-define-matching-range",
+    "href": "slides_02_imputation.html#pmm-define-matching-range",
     "title": "Data challenges (OVP)",
-    "section": "PMM: Define a matching range",
-    "text": "PMM: Define a matching range"
+    "section": "PMM: Define matching range",
+    "text": "PMM: Define matching range"
   },
   {
     "objectID": "slides_02_imputation.html#pmm-select-potential-donors",
@@ -161,15 +126,15 @@
     "text": "PMM: Select potential donors"
   },
   {
-    "objectID": "slides_02_imputation.html#bayesian-pmm-draw-a-line",
-    "href": "slides_02_imputation.html#bayesian-pmm-draw-a-line",
+    "objectID": "slides_02_imputation.html#pmm-bayesian-pmm-draw-lines",
+    "href": "slides_02_imputation.html#pmm-bayesian-pmm-draw-lines",
     "title": "Data challenges (OVP)",
-    "section": "Bayesian PMM: Draw a line",
-    "text": "Bayesian PMM: Draw a line"
+    "section": "PMM: Bayesian PMM: Draw lines",
+    "text": "PMM: Bayesian PMM: Draw lines"
   },
   {
-    "objectID": "slides_02_imputation.html#pmm-define-a-matching-range-1",
-    "href": "slides_02_imputation.html#pmm-define-a-matching-range-1",
+    "objectID": "slides_02_imputation.html#pmm-define-a-matching-range",
+    "href": "slides_02_imputation.html#pmm-define-a-matching-range",
     "title": "Data challenges (OVP)",
     "section": "PMM: Define a matching range",
     "text": "PMM: Define a matching range"
@@ -182,11 +147,151 @@
     "text": "PMM: Select potential donors"
   },
   {
-    "objectID": "slides_02_imputation.html#case-study",
-    "href": "slides_02_imputation.html#case-study",
+    "objectID": "slides_02_imputation.html#imputation-of-binary-variable",
+    "href": "slides_02_imputation.html#imputation-of-binary-variable",
     "title": "Data challenges (OVP)",
-    "section": "Case study",
-    "text": "Case study\n\n\n\n\n\nage\nbmi\nhyp\nchl\n\n\n\n\n3\n25.5\n2\nNA\n\n\n1\nNA\nNA\nNA\n\n\n1\n33.2\n1\n229\n\n\n1\n27.5\n1\n131\n\n\n3\n24.9\n1\nNA\n\n\n2\n27.4\n1\n186"
+    "section": "Imputation of binary variable",
+    "text": "Imputation of binary variable\n\nLogistic regression \\[\\Pr(y_i=1|X_i, \\beta) = \\frac{\\exp(X_i\\beta)}{1+\\exp(X_i\\beta)}\\]"
+  },
+  {
+    "objectID": "slides_02_imputation.html#fit-logistic-model",
+    "href": "slides_02_imputation.html#fit-logistic-model",
+    "title": "Data challenges (OVP)",
+    "section": "Fit logistic model",
+    "text": "Fit logistic model"
+  },
+  {
+    "objectID": "slides_02_imputation.html#draw-parameter-estimate",
+    "href": "slides_02_imputation.html#draw-parameter-estimate",
+    "title": "Data challenges (OVP)",
+    "section": "Draw parameter estimate",
+    "text": "Draw parameter estimate"
+  },
+  {
+    "objectID": "slides_02_imputation.html#read-off-the-probability",
+    "href": "slides_02_imputation.html#read-off-the-probability",
+    "title": "Data challenges (OVP)",
+    "section": "Read off the probability",
+    "text": "Read off the probability"
+  },
+  {
+    "objectID": "slides_02_imputation.html#impute-ordered-categorical-variable",
+    "href": "slides_02_imputation.html#impute-ordered-categorical-variable",
+    "title": "Data challenges (OVP)",
+    "section": "Impute ordered categorical variable",
+    "text": "Impute ordered categorical variable\n\n\\(K\\) ordered categories \\(k=1,\\dots,K\\)\nordered logit model, or\nproportional odds model \\[\\Pr(y_i=k|X_i, \\beta) = \\frac{\\exp(\\tau_k + X_i\\beta)}{\\sum_{k=1}^K\\exp(\\tau_k + X_i\\beta)}\\]"
+  },
+  {
+    "objectID": "slides_02_imputation.html#fit-ordered-logit-model",
+    "href": "slides_02_imputation.html#fit-ordered-logit-model",
+    "title": "Data challenges (OVP)",
+    "section": "Fit ordered logit model",
+    "text": "Fit ordered logit model"
+  },
+  {
+    "objectID": "slides_02_imputation.html#read-off-the-probability-1",
+    "href": "slides_02_imputation.html#read-off-the-probability-1",
+    "title": "Data challenges (OVP)",
+    "section": "Read off the probability",
+    "text": "Read off the probability"
+  },
+  {
+    "objectID": "slides_02_imputation.html#built-in-imputation-functions",
+    "href": "slides_02_imputation.html#built-in-imputation-functions",
+    "title": "Data challenges (OVP)",
+    "section": "Built-in imputation functions",
+    "text": "Built-in imputation functions\nhttps://amices.org/mice/reference/index.html"
+  },
+  {
+    "objectID": "slides_02_imputation.html#sec:issues",
+    "href": "slides_02_imputation.html#sec:issues",
+    "title": "Data challenges (OVP)",
+    "section": "Issues in multivariate imputation",
+    "text": "Issues in multivariate imputation\n\n\nThe predictors \\(Y_{-j}\\) themselves can contain missing values;\n“Circular” dependence can occur, where \\(Y_j^\\mathrm{mis}\\) depends on \\(Y_h^\\mathrm{mis}\\), and vice versa;\nVariables are often of different types (e.g., binary, unordered, ordered, continuous);\nEspecially with large \\(p\\) and small \\(n\\), collinearity or empty cells can occur;\nThe ordering of the rows and columns can be meaningful, e.g., as in longitudinal data;\nThe relation between \\(Y_j\\) and predictors \\(Y_{-j}\\) can be complex, e.g., nonlinear, or subject to censoring processes;\nImputation can create impossible combinations."
+  },
+  {
+    "objectID": "slides_02_imputation.html#fully-conditional-specification",
+    "href": "slides_02_imputation.html#fully-conditional-specification",
+    "title": "Data challenges (OVP)",
+    "section": "Fully conditional specification",
+    "text": "Fully conditional specification"
+  },
+  {
+    "objectID": "slides_02_imputation.html#fully-conditional-specification-1",
+    "href": "slides_02_imputation.html#fully-conditional-specification-1",
+    "title": "Data challenges (OVP)",
+    "section": "Fully conditional specification",
+    "text": "Fully conditional specification"
+  },
+  {
+    "objectID": "slides_02_imputation.html#fully-conditional-specification-2",
+    "href": "slides_02_imputation.html#fully-conditional-specification-2",
+    "title": "Data challenges (OVP)",
+    "section": "Fully conditional specification",
+    "text": "Fully conditional specification"
+  },
+  {
+    "objectID": "slides_02_imputation.html#fully-conditional-specification-3",
+    "href": "slides_02_imputation.html#fully-conditional-specification-3",
+    "title": "Data challenges (OVP)",
+    "section": "Fully conditional specification",
+    "text": "Fully conditional specification"
+  },
+  {
+    "objectID": "slides_02_imputation.html#fully-conditional-specification-4",
+    "href": "slides_02_imputation.html#fully-conditional-specification-4",
+    "title": "Data challenges (OVP)",
+    "section": "Fully conditional specification",
+    "text": "Fully conditional specification"
+  },
+  {
+    "objectID": "slides_02_imputation.html#fully-conditional-specification---next",
+    "href": "slides_02_imputation.html#fully-conditional-specification---next",
+    "title": "Data challenges (OVP)",
+    "section": "Fully conditional specification - next",
+    "text": "Fully conditional specification - next"
+  },
+  {
+    "objectID": "slides_02_imputation.html#fully-conditional-specification---next-1",
+    "href": "slides_02_imputation.html#fully-conditional-specification---next-1",
+    "title": "Data challenges (OVP)",
+    "section": "Fully conditional specification - next",
+    "text": "Fully conditional specification - next"
+  },
+  {
+    "objectID": "slides_02_imputation.html#how-many-iterations",
+    "href": "slides_02_imputation.html#how-many-iterations",
+    "title": "Data challenges (OVP)",
+    "section": "How many iterations?",
+    "text": "How many iterations?\n\nQuick convergence\n5–10 iterations is adequate for most problems\nMore iterations is \\(\\lambda\\) is high\nInspect the generated imputations\nMonitor convergence to detect anomalies"
+  },
+  {
+    "objectID": "slides_02_imputation.html#non-convergence",
+    "href": "slides_02_imputation.html#non-convergence",
+    "title": "Data challenges (OVP)",
+    "section": "Non-convergence",
+    "text": "Non-convergence"
+  },
+  {
+    "objectID": "slides_02_imputation.html#convergence",
+    "href": "slides_02_imputation.html#convergence",
+    "title": "Data challenges (OVP)",
+    "section": "Convergence",
+    "text": "Convergence"
+  },
+  {
+    "objectID": "slides_02_imputation.html#number-of-iterations",
+    "href": "slides_02_imputation.html#number-of-iterations",
+    "title": "Data challenges (OVP)",
+    "section": "Number of iterations",
+    "text": "Number of iterations\nWatch out for situations where\n\nthe correlations between the \\(Y_j\\)’s are high;\nthe missing data rates are high; or\nconstraints on parameters across different variables exist."
+  },
+  {
+    "objectID": "slides_02_imputation.html#nhanes-data-excerpt",
+    "href": "slides_02_imputation.html#nhanes-data-excerpt",
+    "title": "Data challenges (OVP)",
+    "section": "NHANES data (excerpt)",
+    "text": "NHANES data (excerpt)\n\n\n\n\n\nage\nbmi\nhyp\nchl\n\n\n\n\n3\n25.5\n2\nNA\n\n\n1\nNA\nNA\nNA\n\n\n1\n33.2\n1\n229\n\n\n1\n27.5\n1\n131\n\n\n3\n24.9\n1\nNA\n\n\n2\n27.4\n1\n186"
   },
   {
     "objectID": "slides_02_imputation.html#missing-cholesterol",
@@ -340,7 +445,7 @@
     "href": "slides_02_imputation.html#take-aways",
     "title": "Data challenges (OVP)",
     "section": "Take aways",
-    "text": "Take aways\nMultiple imputation\n-   Flexible, widely applicable\n-   Splits missing data problem from complete-data problem\n-   Yields correct point and variance estimates\n-   Requires a workflow with multiple imputed data sets"
+    "text": "Take aways\n\nGenerating univariate imputations adds noise\nGenerating multivariate imputatation iterates over univariate method\nLibrary of univariate imputation functions in mice\nVisualize the imputation process using ggmice()"
   },
   {
     "objectID": "04_takeaways.html",
@@ -497,7 +602,7 @@
     "href": "03_inference.html#correct-inferences-with-missing-data",
     "title": "Data challenges (Onderwijs voor Professionals)",
     "section": "Correct inferences with missing data",
-    "text": "Correct inferences with missing data\n\n7. Perform a regression analysis on the imputed dataset with wgt as dependent variable and age and hgt as independent variables.\n\nfit1 &lt;- with(imp20, lm(wgt ~ age + hgt))\n\n\n8. Pool the regression analysis and inspect the pooled analysis.\n\n\npool(fit1)\n\nClass: mipo    m = 5 \n         term m estimate     ubar        b        t dfcom  df     riv  lambda\n1 (Intercept) 5    -9.25 4.237771 2.76e-02 4.270898   745 729 0.00782 0.00776\n2         age 5     2.34 0.036259 3.28e-04 0.036653   745 720 0.01085 0.01074\n3         hgt 5     0.19 0.000797 5.76e-06 0.000804   745 727 0.00867 0.00860\n     fmi\n1 0.0105\n2 0.0135\n3 0.0113\n\n\nThis output gives the relevant pooled regression coefficients and parameters, as well as the fraction of information about the coefficients missing due to nonresponse (fmi) and the proportion of the variation attributable to the missing data (lambda). The pooled fit object is of class mipo, which stands for multiply imputed pooled object.\nmice is able to pool many analyses from a variety of packages for you. Of course, this includes all built-in statistical models in R, such as linear regression models with the lm() family of functions. But also more complex statistical models can be pooled, such as multilevel models or individual patient data meta-analyses.\nThe pooling function works for any model, as long as the functions have a respective broom::tidy() or broom::glance() method in R. These methods extract the relevant model parameters from model output. For flexibility and in order to run custom pooling functions, mice also incorporates a function pool.scalar() which pools univariate estimates of \\(m\\) repeated complete data analysis conform Rubin’s pooling rules (Rubin, 1987, paragraph 3.1).\n\n9. Calculate the test statistics of the regression coefficients using the summary() function.\n\n\nsummary(pool(fit1))\n\n         term estimate std.error statistic  df  p.value\n1 (Intercept)    -9.25    2.0666     -4.48 729 8.83e-06\n2         age     2.34    0.1914     12.23 720 2.25e-31\n3         hgt     0.19    0.0284      6.71 727 3.81e-11\n\n\nBoth variables are strongly related to wgt (which is of course no surprise). The column estimate displays the pooled regression coefficient. The column std.error provides the pooled standard error, that is, the square root of the total variance \\(T = \\bar U + B + B/m\\). The test statistic is calculated as estimate/std.error, and the degrees of freedom are calculated according to the Barnard-Rubin degrees of freedom (if you’re curious, you can type mice:::barnard.rubin (without function parenthesis) to see how these degrees of freedom are calculated).\n\nWhile we strongly advocate for the use of R, we do acknowledge that some users might use other software for statistical analyses. To accommodate these users, mice contains a mids2spss() function, that allows to extract the imputed data as a .sav file, which can be opened in SPSS. Do note that we are actively working on a multiple imputation module in JASP, a free and open-source alternative to SPSS. If you’re curious, you can find JASP here.\nOPTIONAL: 9. Export the imputed data to a .sav-file, and open the data in SPSS to reproduce our analysis.\n\nmids2spss(imp20, path = tempdir())\n\nSPSS file written to /var/folders/5_/g85d42yj50b6lrjq4rzjzg8w0000gn/T//RtmpVD0nnM/midsdata.sav \n\n\nNow, you can open this data in SPSS in the usual way. Before SPSS recognizes the data as a multiply imputed data set, you must split the data by the Imputation_ variable. This can be done as follows:\n\nAfter you have done this, you can run the regression analysis by going to “Analyze &gt; Linear regression” like so.\n\nFinally, you can verify that the results are indeed identical to the results obtained in R by inspecting the following output.\n\n\nConclusion\nWe have seen that the practical execution of multiple imputation and pooling is straightforward with the R package mice. The package is designed to allow you to assess and control the imputations themselves, the convergence of the algorithm and the distributions and multivariate relations of the observed and imputed data.\nIt is important to ‘gain’ this control as a user. After all, we are imputing values and we aim to properly adress the uncertainty about the missingness problem.",
+    "text": "Correct inferences with missing data\n\n7. Perform a regression analysis on the imputed dataset with wgt as dependent variable and age and hgt as independent variables.\n\nfit1 &lt;- with(imp20, lm(wgt ~ age + hgt))\n\n\n8. Pool the regression analysis and inspect the pooled analysis.\n\n\npool(fit1)\n\nClass: mipo    m = 5 \n         term m estimate     ubar        b        t dfcom  df     riv  lambda\n1 (Intercept) 5    -9.25 4.237771 2.76e-02 4.270898   745 729 0.00782 0.00776\n2         age 5     2.34 0.036259 3.28e-04 0.036653   745 720 0.01085 0.01074\n3         hgt 5     0.19 0.000797 5.76e-06 0.000804   745 727 0.00867 0.00860\n     fmi\n1 0.0105\n2 0.0135\n3 0.0113\n\n\nThis output gives the relevant pooled regression coefficients and parameters, as well as the fraction of information about the coefficients missing due to nonresponse (fmi) and the proportion of the variation attributable to the missing data (lambda). The pooled fit object is of class mipo, which stands for multiply imputed pooled object.\nmice is able to pool many analyses from a variety of packages for you. Of course, this includes all built-in statistical models in R, such as linear regression models with the lm() family of functions. But also more complex statistical models can be pooled, such as multilevel models or individual patient data meta-analyses.\nThe pooling function works for any model, as long as the functions have a respective broom::tidy() or broom::glance() method in R. These methods extract the relevant model parameters from model output. For flexibility and in order to run custom pooling functions, mice also incorporates a function pool.scalar() which pools univariate estimates of \\(m\\) repeated complete data analysis conform Rubin’s pooling rules (Rubin, 1987, paragraph 3.1).\n\n9. Calculate the test statistics of the regression coefficients using the summary() function.\n\n\nsummary(pool(fit1))\n\n         term estimate std.error statistic  df  p.value\n1 (Intercept)    -9.25    2.0666     -4.48 729 8.83e-06\n2         age     2.34    0.1914     12.23 720 2.25e-31\n3         hgt     0.19    0.0284      6.71 727 3.81e-11\n\n\nBoth variables are strongly related to wgt (which is of course no surprise). The column estimate displays the pooled regression coefficient. The column std.error provides the pooled standard error, that is, the square root of the total variance \\(T = \\bar U + B + B/m\\). The test statistic is calculated as estimate/std.error, and the degrees of freedom are calculated according to the Barnard-Rubin degrees of freedom (if you’re curious, you can type mice:::barnard.rubin (without function parenthesis) to see how these degrees of freedom are calculated).\n\nWhile we strongly advocate for the use of R, we do acknowledge that some users might use other software for statistical analyses. To accommodate these users, mice contains a mids2spss() function, that allows to extract the imputed data as a .sav file, which can be opened in SPSS. Do note that we are actively working on a multiple imputation module in JASP, a free and open-source alternative to SPSS. If you’re curious, you can find JASP here.\nOPTIONAL: 9. Export the imputed data to a .sav-file, and open the data in SPSS to reproduce our analysis.\n\nmids2spss(imp20, path = tempdir())\n\nSPSS file written to /var/folders/5_/g85d42yj50b6lrjq4rzjzg8w0000gn/T//RtmpWpYrZZ/midsdata.sav \n\n\nNow, you can open this data in SPSS in the usual way. Before SPSS recognizes the data as a multiply imputed data set, you must split the data by the Imputation_ variable. This can be done as follows:\n\nAfter you have done this, you can run the regression analysis by going to “Analyze &gt; Linear regression” like so.\n\nFinally, you can verify that the results are indeed identical to the results obtained in R by inspecting the following output.\n\n\nConclusion\nWe have seen that the practical execution of multiple imputation and pooling is straightforward with the R package mice. The package is designed to allow you to assess and control the imputations themselves, the convergence of the algorithm and the distributions and multivariate relations of the observed and imputed data.\nIt is important to ‘gain’ this control as a user. After all, we are imputing values and we aim to properly adress the uncertainty about the missingness problem.",
     "crumbs": [
       "III. Inferentie"
     ]
@@ -846,6 +951,13 @@
     "text": "Overview of assumptions needed\n\n\n\n\n\nUnbiased\n\nStandard Error\n\n\n\nMean\nReg Weight\nCorrelation\n\n\n\nListwise\nMCAR\nMCAR\nMCAR\nToo large\n\n\nPairwise\nMCAR\nMCAR\nMCAR\nComplicated\n\n\nMean\nMCAR\n–\n–\nToo small\n\n\nRegression\nMAR\nMAR\n–\nToo small\n\n\nStochastic\nMAR\nMAR\nMAR\nToo small\n\n\nLOCF\n–\n–\n–\nToo small\n\n\nIndicator\n–\n–\n–\nToo small"
   },
   {
+    "objectID": "slides_01_missingness.html#multiple-imputation---1987",
+    "href": "slides_01_missingness.html#multiple-imputation---1987",
+    "title": "Data challenges (OVP)",
+    "section": "Multiple imputation - 1987",
+    "text": "Multiple imputation - 1987"
+  },
+  {
     "objectID": "slides_01_missingness.html#multiple-imputation",
     "href": "slides_01_missingness.html#multiple-imputation",
     "title": "Data challenges (OVP)",
@@ -860,6 +972,20 @@
     "text": "Multiple imputation"
   },
   {
+    "objectID": "slides_01_missingness.html#multiple-imputation-cons",
+    "href": "slides_01_missingness.html#multiple-imputation-cons",
+    "title": "Data challenges (OVP)",
+    "section": "Multiple imputation: Cons",
+    "text": "Multiple imputation: Cons\n\nNeed to create and work with multiple imputed data sets\nPresumes a fairly well-developed idea of what to estimate\nMay not always be the most statistically efficient method"
+  },
+  {
+    "objectID": "slides_01_missingness.html#multiple-imputation-pros",
+    "href": "slides_01_missingness.html#multiple-imputation-pros",
+    "title": "Data challenges (OVP)",
+    "section": "Multiple imputation: Pros",
+    "text": "Multiple imputation: Pros\n\nCorrect point and variance estimates\nSplits missing data problem from complete-data analysis\nTheoretical properties well established\nFlexible, widely applicable"
+  },
+  {
     "objectID": "slides_01_missingness.html#acceptance-of-multiple-imputation",
     "href": "slides_01_missingness.html#acceptance-of-multiple-imputation",
     "title": "Data challenges (OVP)",
@@ -871,7 +997,7 @@
     "href": "slides_01_missingness.html#take-aways-1",
     "title": "Data challenges (OVP)",
     "section": "Take aways",
-    "text": "Take aways\n\nMissing values are a fact of life\nUnderstanding why data are missing is essential\n\nIt determines whether the missingness can bias inference\nIt provides the basis for selecting an appropriate handling strategy\n\nMissing data methods differ in validity"
+    "text": "Take aways\n\nMissing values are a fact of life\nUnderstanding why data are missing is essential\n\nIt determines whether the missingness can bias inference\nIt provides the basis for selecting an appropriate handling strategy\n\nMissing data methods differ in validity\nMultiple imputation is generally valid, flexible solution for handling incomplete data"
   },
   {
     "objectID": "slides_03_inference.html#recap",

@@ -665,15 +665,33 @@ box(lwd = 1)
   Indicator      –           –               –         Too small
   ------------ ------ ---------------- ------------- -------------
 
+## Multiple imputation - 1987
+
+![](img/rubin1987_cover.jpeg){fig-align="center" width=30%}
+
+
 ## Multiple imputation
 
-- Core idea: Replace each missing value by m > 1 plausible draws rather than a single estimate.
-- Uncertainty representation: The variability across these draws reflects the inherent uncertainty about the unobserved true value.
-- Implementation: For each missing cell, generate m imputations (e.g., m = 20), resulting in m completed datasets for downstream analysis.
+- **Core idea**: Replace each missing value by m > 1 plausible draws rather than a single estimate.
+- **Uncertainty representation**: The variability across these draws reflects the inherent uncertainty about the unobserved true value.
+- **Implementation**: For each missing cell, generate m imputations (e.g., m = 20), resulting in m completed datasets for downstream analysis.
 
 ## Multiple imputation
 
 ![](img/flow.png){width="80%"}
+
+## Multiple imputation: Cons
+
+-   Need to create and work with multiple imputed data sets
+-   Presumes a fairly well-developed idea of what to estimate
+-   May not always be the most statistically efficient method
+
+## Multiple imputation: Pros
+
+-   Correct point and variance estimates
+-   Splits missing data problem from complete-data analysis
+-   Theoretical properties well established
+-   Flexible, widely applicable
 
 ## Acceptance of multiple imputation
 
@@ -937,3 +955,4 @@ legend(
 	+ It determines whether the missingness can bias inference
 	+ It provides the basis for selecting an appropriate handling strategy
 - Missing data methods differ in validity
+- Multiple imputation is generally valid, flexible solution for handling incomplete data
