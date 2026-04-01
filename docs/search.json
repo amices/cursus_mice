@@ -602,7 +602,7 @@
     "href": "03_inference.html#correct-inferences-with-missing-data",
     "title": "Data challenges (Onderwijs voor Professionals)",
     "section": "Correct inferences with missing data",
-    "text": "Correct inferences with missing data\n\n7. Perform a regression analysis on the imputed dataset with wgt as dependent variable and age and hgt as independent variables.\n\nfit1 &lt;- with(imp20, lm(wgt ~ age + hgt))\n\n\n8. Pool the regression analysis and inspect the pooled analysis.\n\n\npool(fit1)\n\nClass: mipo    m = 5 \n         term m estimate     ubar        b        t dfcom  df     riv  lambda\n1 (Intercept) 5    -9.25 4.237771 2.76e-02 4.270898   745 729 0.00782 0.00776\n2         age 5     2.34 0.036259 3.28e-04 0.036653   745 720 0.01085 0.01074\n3         hgt 5     0.19 0.000797 5.76e-06 0.000804   745 727 0.00867 0.00860\n     fmi\n1 0.0105\n2 0.0135\n3 0.0113\n\n\nThis output gives the relevant pooled regression coefficients and parameters, as well as the fraction of information about the coefficients missing due to nonresponse (fmi) and the proportion of the variation attributable to the missing data (lambda). The pooled fit object is of class mipo, which stands for multiply imputed pooled object.\nmice is able to pool many analyses from a variety of packages for you. Of course, this includes all built-in statistical models in R, such as linear regression models with the lm() family of functions. But also more complex statistical models can be pooled, such as multilevel models or individual patient data meta-analyses.\nThe pooling function works for any model, as long as the functions have a respective broom::tidy() or broom::glance() method in R. These methods extract the relevant model parameters from model output. For flexibility and in order to run custom pooling functions, mice also incorporates a function pool.scalar() which pools univariate estimates of \\(m\\) repeated complete data analysis conform Rubin’s pooling rules (Rubin, 1987, paragraph 3.1).\n\n9. Calculate the test statistics of the regression coefficients using the summary() function.\n\n\nsummary(pool(fit1))\n\n         term estimate std.error statistic  df  p.value\n1 (Intercept)    -9.25    2.0666     -4.48 729 8.83e-06\n2         age     2.34    0.1914     12.23 720 2.25e-31\n3         hgt     0.19    0.0284      6.71 727 3.81e-11\n\n\nBoth variables are strongly related to wgt (which is of course no surprise). The column estimate displays the pooled regression coefficient. The column std.error provides the pooled standard error, that is, the square root of the total variance \\(T = \\bar U + B + B/m\\). The test statistic is calculated as estimate/std.error, and the degrees of freedom are calculated according to the Barnard-Rubin degrees of freedom (if you’re curious, you can type mice:::barnard.rubin (without function parenthesis) to see how these degrees of freedom are calculated).\n\nWhile we strongly advocate for the use of R, we do acknowledge that some users might use other software for statistical analyses. To accommodate these users, mice contains a mids2spss() function, that allows to extract the imputed data as a .sav file, which can be opened in SPSS. Do note that we are actively working on a multiple imputation module in JASP, a free and open-source alternative to SPSS. If you’re curious, you can find JASP here.\nOPTIONAL: 9. Export the imputed data to a .sav-file, and open the data in SPSS to reproduce our analysis.\n\nmids2spss(imp20, path = tempdir())\n\nSPSS file written to /var/folders/5_/g85d42yj50b6lrjq4rzjzg8w0000gn/T//RtmpWpYrZZ/midsdata.sav \n\n\nNow, you can open this data in SPSS in the usual way. Before SPSS recognizes the data as a multiply imputed data set, you must split the data by the Imputation_ variable. This can be done as follows:\n\nAfter you have done this, you can run the regression analysis by going to “Analyze &gt; Linear regression” like so.\n\nFinally, you can verify that the results are indeed identical to the results obtained in R by inspecting the following output.\n\n\nConclusion\nWe have seen that the practical execution of multiple imputation and pooling is straightforward with the R package mice. The package is designed to allow you to assess and control the imputations themselves, the convergence of the algorithm and the distributions and multivariate relations of the observed and imputed data.\nIt is important to ‘gain’ this control as a user. After all, we are imputing values and we aim to properly adress the uncertainty about the missingness problem.",
+    "text": "Correct inferences with missing data\n\n7. Perform a regression analysis on the imputed dataset with wgt as dependent variable and age and hgt as independent variables.\n\nfit1 &lt;- with(imp20, lm(wgt ~ age + hgt))\n\n\n8. Pool the regression analysis and inspect the pooled analysis.\n\n\npool(fit1)\n\nClass: mipo    m = 5 \n         term m estimate     ubar        b        t dfcom  df     riv  lambda\n1 (Intercept) 5    -9.25 4.237771 2.76e-02 4.270898   745 729 0.00782 0.00776\n2         age 5     2.34 0.036259 3.28e-04 0.036653   745 720 0.01085 0.01074\n3         hgt 5     0.19 0.000797 5.76e-06 0.000804   745 727 0.00867 0.00860\n     fmi\n1 0.0105\n2 0.0135\n3 0.0113\n\n\nThis output gives the relevant pooled regression coefficients and parameters, as well as the fraction of information about the coefficients missing due to nonresponse (fmi) and the proportion of the variation attributable to the missing data (lambda). The pooled fit object is of class mipo, which stands for multiply imputed pooled object.\nmice is able to pool many analyses from a variety of packages for you. Of course, this includes all built-in statistical models in R, such as linear regression models with the lm() family of functions. But also more complex statistical models can be pooled, such as multilevel models or individual patient data meta-analyses.\nThe pooling function works for any model, as long as the functions have a respective broom::tidy() or broom::glance() method in R. These methods extract the relevant model parameters from model output. For flexibility and in order to run custom pooling functions, mice also incorporates a function pool.scalar() which pools univariate estimates of \\(m\\) repeated complete data analysis conform Rubin’s pooling rules (Rubin, 1987, paragraph 3.1).\n\n9. Calculate the test statistics of the regression coefficients using the summary() function.\n\n\nsummary(pool(fit1))\n\n         term estimate std.error statistic  df  p.value\n1 (Intercept)    -9.25    2.0666     -4.48 729 8.83e-06\n2         age     2.34    0.1914     12.23 720 2.25e-31\n3         hgt     0.19    0.0284      6.71 727 3.81e-11\n\n\nBoth variables are strongly related to wgt (which is of course no surprise). The column estimate displays the pooled regression coefficient. The column std.error provides the pooled standard error, that is, the square root of the total variance \\(T = \\bar U + B + B/m\\). The test statistic is calculated as estimate/std.error, and the degrees of freedom are calculated according to the Barnard-Rubin degrees of freedom (if you’re curious, you can type mice:::barnard.rubin (without function parenthesis) to see how these degrees of freedom are calculated).\n\nWhile we strongly advocate for the use of R, we do acknowledge that some users might use other software for statistical analyses. To accommodate these users, mice contains a mids2spss() function, that allows to extract the imputed data as a .sav file, which can be opened in SPSS. Do note that we are actively working on a multiple imputation module in JASP, a free and open-source alternative to SPSS. If you’re curious, you can find JASP here.\nOPTIONAL: 9. Export the imputed data to a .sav-file, and open the data in SPSS to reproduce our analysis.\n\nmids2spss(imp20, path = tempdir())\n\nSPSS file written to /var/folders/5_/g85d42yj50b6lrjq4rzjzg8w0000gn/T//RtmpjavGyN/midsdata.sav \n\n\nNow, you can open this data in SPSS in the usual way. Before SPSS recognizes the data as a multiply imputed data set, you must split the data by the Imputation_ variable. This can be done as follows:\n\nAfter you have done this, you can run the regression analysis by going to “Analyze &gt; Linear regression” like so.\n\nFinally, you can verify that the results are indeed identical to the results obtained in R by inspecting the following output.\n\n\nConclusion\nWe have seen that the practical execution of multiple imputation and pooling is straightforward with the R package mice. The package is designed to allow you to assess and control the imputations themselves, the convergence of the algorithm and the distributions and multivariate relations of the observed and imputed data.\nIt is important to ‘gain’ this control as a user. After all, we are imputing values and we aim to properly adress the uncertainty about the missingness problem.",
     "crumbs": [
       "III. Inferentie"
     ]
@@ -1000,39 +1000,102 @@
     "text": "Take aways\n\nMissing values are a fact of life\nUnderstanding why data are missing is essential\n\nIt determines whether the missingness can bias inference\nIt provides the basis for selecting an appropriate handling strategy\n\nMissing data methods differ in validity\nMultiple imputation is generally valid, flexible solution for handling incomplete data"
   },
   {
-    "objectID": "slides_03_inference.html#recap",
-    "href": "slides_03_inference.html#recap",
-    "title": "Data challenges (OVP)",
-    "section": "Recap",
-    "text": "Recap\nMultiple imputation\n\nFlexible, widely applicable\nSplits missing data problem from complete-data problem\nRequires a workflow with multiple imputed data sets"
-  },
-  {
     "objectID": "slides_03_inference.html#outlook",
     "href": "slides_03_inference.html#outlook",
     "title": "Data challenges (OVP)",
     "section": "Outlook",
-    "text": "Outlook\n\nThe MICE algorithm\nDiagnosing problems\nCorrect inferences with missing data"
+    "text": "Outlook\n\nWe can now generate multiple imputations\nNow want want correct inferences, based on the multiply-imputed data"
   },
   {
-    "objectID": "slides_03_inference.html#the-distribution-of-the-data",
-    "href": "slides_03_inference.html#the-distribution-of-the-data",
+    "objectID": "slides_03_inference.html#missing-data-introduces-additional-uncertainty",
+    "href": "slides_03_inference.html#missing-data-introduces-additional-uncertainty",
     "title": "Data challenges (OVP)",
-    "section": "The distribution of the data",
-    "text": "The distribution of the data\nData are assumed to come from some unknown data-generating mechanism\n\n\nThis mechanism determines:\n\nCharacteristics of each variable\n\nMean, variance, etc.\n\nRelationships between variables\n\nCorrelations, non-linear relationship\n\nRandom noise\n\nNon-deterministic part - randomness\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDistribution of peoples’ heights in the Netherlands Height is related to age Knowing someone’s age is not sufficient to predict someone’s height When imputing data, we want all of these features to be preserved."
+    "section": "Missing data introduces additional uncertainty",
+    "text": "Missing data introduces additional uncertainty\n\nWe don’t know (with certainty) what the unknown value should be\nPretending to know the unknown value underestimates uncertainty\nBut we have multiple imputed values!"
   },
   {
-    "objectID": "slides_03_inference.html#chaining-the-distribution-of-the-data",
-    "href": "slides_03_inference.html#chaining-the-distribution-of-the-data",
+    "objectID": "slides_03_inference.html#multiple-imputations-reflect-the-missing-data-uncertainty",
+    "href": "slides_03_inference.html#multiple-imputations-reflect-the-missing-data-uncertainty",
     "title": "Data challenges (OVP)",
-    "section": "Chaining the distribution of the data",
-    "text": "Chaining the distribution of the data\nIf you have many (\\(&gt; 2\\)) variables, estimating the distribution of the data is hard!\nIdea: break the distribution into a chain of distributions, one per variable\n\nModel each variable as a function of all other variables.\nFor age, height and weight, we model\n\n\\(\\text{age} \\sim f(\\text{height}, \\text{weight})\\)\n\\(\\text{height} \\sim f(\\text{age}, \\text{weight})\\)\n\\(\\text{weight} \\sim f(\\text{age}, \\text{height})\\)\n\n\nInstead of modelling the entire data distribution correctly:\n→ Simplify: model the distribution of one variable given the others correctly."
+    "section": "Multiple imputations reflect the missing data uncertainty!",
+    "text": "Multiple imputations reflect the missing data uncertainty!\n\nThe more we know about the missing value, the more accurate our imputations!"
   },
   {
-    "objectID": "slides_03_inference.html#advantages-of-chained-models",
-    "href": "slides_03_inference.html#advantages-of-chained-models",
+    "objectID": "slides_03_inference.html#analyses-with-missing-data",
+    "href": "slides_03_inference.html#analyses-with-missing-data",
     "title": "Data challenges (OVP)",
-    "section": "Advantages of chained models",
-    "text": "Advantages of chained models\n\nFlexibility: We can use essentially any model we want\n\nContinuous outcome: linear regression, non-linear regression, predictive mean matching, machine learning model\nCount outcome: Poisson regression, predictive mean matching, machine learning model\nCategorical outcome: Logistic regression, predictive mean matching, machine learning model\n\n\n\nIncorporating constraints\n\nTwo step procedures: if (constraint) do [1] else do [2]\n\n\n\nInterpretability: Model diagnostics\n\nWe can use standard procedures to check and finetune our imputation models"
+    "section": "Analyses with missing data",
+    "text": "Analyses with missing data\n\nUsually, the goal is not to impute the data as accurately as possible\nInstead, we want to do some interesting analysis\nE.g., a \\(t\\)-test, linear or logistic regression\n\n\nWe have multiple data sets now, how to proceed?\nTypical workflow: fit the model of interest to each imputed dataset: estimate parameter of interest and corresponding variance, and adjust for imputation uncertainty."
+  },
+  {
+    "objectID": "slides_03_inference.html#a-t-test-with-missing-data",
+    "href": "slides_03_inference.html#a-t-test-with-missing-data",
+    "title": "Data challenges (OVP)",
+    "section": "A \\(t\\)-test with missing data",
+    "text": "A \\(t\\)-test with missing data\nQ: Do individuals with hypertension have higher total serum cholesterol than individuals without hypertension.\n\nimp &lt;- mice(nhanes2)\nfit &lt;- with(imp, lm(chl ~ hyp))\nsummary(fit)\n\n# A tibble: 10 × 7\n   term        estimate std.error statistic  p.value  nobs df.residual\n   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;       &lt;dbl&gt;\n 1 (Intercept)    188.       8.62     21.8  7.11e-17    25          23\n 2 hypyes          33.6     19.3       1.74 9.47e- 2    25          23\n 3 (Intercept)    181.       9.73     18.6  2.36e-15    25          23\n 4 hypyes          39.1     18.4       2.13 4.44e- 2    25          23\n 5 (Intercept)    182        9.55     19.1  1.38e-15    25          23\n 6 hypyes          30       21.4       1.41 1.73e- 1    25          23\n 7 (Intercept)    181.      10.7      16.9  1.82e-14    25          23\n 8 hypyes          24.1     18.9       1.28 2.15e- 1    25          23\n 9 (Intercept)    186.      10.0      18.6  2.47e-15    25          23\n10 hypyes          43.2     20.4       2.12 4.55e- 2    25          23\n\n\nMaybe: The coefficient related to hypertension (hypyes) is larger than \\(0\\) in all imputed datasets, but standard error is quite large as well.\nHow to formalize this?"
+  },
+  {
+    "objectID": "slides_03_inference.html#a-t-test-with-missing-data-visualized",
+    "href": "slides_03_inference.html#a-t-test-with-missing-data-visualized",
+    "title": "Data challenges (OVP)",
+    "section": "A \\(t\\)-test with missing data (visualized)",
+    "text": "A \\(t\\)-test with missing data (visualized)"
+  },
+  {
+    "objectID": "slides_03_inference.html#multiple-imputation-workflow",
+    "href": "slides_03_inference.html#multiple-imputation-workflow",
+    "title": "Data challenges (OVP)",
+    "section": "Multiple imputation workflow",
+    "text": "Multiple imputation workflow"
+  },
+  {
+    "objectID": "slides_03_inference.html#what-is-estimated-in-multiple-imputation",
+    "href": "slides_03_inference.html#what-is-estimated-in-multiple-imputation",
+    "title": "Data challenges (OVP)",
+    "section": "What is estimated in multiple imputation?",
+    "text": "What is estimated in multiple imputation?\nAfter we have fitted the model of scientific interest (using the with() function) to each imputed data set, we have for each imputation \\(j = 1, \\dots, m\\):\n\n\\(\\hat Q_j\\): Estimate of parameters of interest\n\\(\\bar U_j\\): Estimate of the variance of \\(\\hat Q_j\\)"
+  },
+  {
+    "objectID": "slides_03_inference.html#pooling-method",
+    "href": "slides_03_inference.html#pooling-method",
+    "title": "Data challenges (OVP)",
+    "section": "Pooling method",
+    "text": "Pooling method\n\nDefine \\(Q\\), the quantity of interest (a population parameter).\n\nIn each imputed data, estimate \\(Q\\) by \\(\\hat{Q}_j\\)\nAverage over the imputed data sets: \\(\\bar Q = \\frac 1 m \\sum_{j=1}^m \\hat{Q}_j\\)."
+  },
+  {
+    "objectID": "slides_03_inference.html#the-variance-of-bar-q-three-sources",
+    "href": "slides_03_inference.html#the-variance-of-bar-q-three-sources",
+    "title": "Data challenges (OVP)",
+    "section": "The variance of \\(\\bar Q\\): three sources",
+    "text": "The variance of \\(\\bar Q\\): three sources\n\n\n\nSampling uncertainty (we do not observe the entire population)\n\nThe usual variance that we would also have without missing data: \\(\\bar U = \\frac 1 m \\sum_{j=1}^m \\hat U_j\\)\n\n\n\n\n\n\n\nMissing data uncertainty (some information is unobserved)\n\nWe can impute, but we are seldom certain of the true underlying value\nBetween imputation uncertainty: \\(B = \\frac{1}{m-1} \\sum_{j=1}^m (\\hat Q_j - \\bar Q)'(\\hat Q_j - \\bar Q)\\)\n\n\n\n\n\n\n\nImputation uncertainty (we approximate the missing values with a finite number of draws from the posterior distribution)\n\nMore draws, the smaller our simulation error: \\(\\frac B m\\)\n\n\n\n\n\n\nTotal variance\n\nAdd all components together: \\(T = \\bar U + B + \\frac B m\\)"
+  },
+  {
+    "objectID": "slides_03_inference.html#three-sources-of-variation",
+    "href": "slides_03_inference.html#three-sources-of-variation",
+    "title": "Data challenges (OVP)",
+    "section": "Three sources of variation",
+    "text": "Three sources of variation\nIn summary, the total variance \\(T\\) stems from three sources:\n\n\\(\\bar U\\), the variance caused by the fact that we are taking a sample rather than the entire population. This is the conventional statistical measure of variability;\n\\(B\\), the extra variance caused by the fact that there are missing values in the sample;\n\\(B/m\\), the extra simulation variance caused by the fact that \\(\\bar Q_m\\) itself is based on finite \\(m\\)."
+  },
+  {
+    "objectID": "slides_03_inference.html#inferences-from-bar-q",
+    "href": "slides_03_inference.html#inferences-from-bar-q",
+    "title": "Data challenges (OVP)",
+    "section": "Inferences from \\(\\bar Q\\)",
+    "text": "Inferences from \\(\\bar Q\\)\nNow we have \\(\\bar Q\\) and its variance, we can make inferences\n\nSignificance testing (or Bayesian tests)\n\nBecause the variance around \\(\\bar Q\\) is estimated from the data, inferences are based on a \\(t\\)-distribution, \\(H_0: Q = Q_0\\) vs \\(H_1: Q \\neq Q_0\\).\n\n\\(p\\)-value: \\(P\\Bigg(\\frac{|\\bar Q - Q_0|}{\\sqrt{T}} &gt; t_{(\\nu, 1-\\alpha/2)}\\Bigg)\\)\n\n\\(\\nu\\): degrees of freedom (given by software)\n\n\n\n\\(100(1-\\alpha)\\%\\) confidence interval: \\(\\bar Q \\pm t_{(\\nu, 1-\\alpha/2)}\\cdot \\sqrt{T}\\)"
+  },
+  {
+    "objectID": "slides_03_inference.html#how-much-information-is-contained-in-the-missing-data",
+    "href": "slides_03_inference.html#how-much-information-is-contained-in-the-missing-data",
+    "title": "Data challenges (OVP)",
+    "section": "How much information is contained in the missing data?",
+    "text": "How much information is contained in the missing data?\nProportion of variance attributable to the missing data \\[\n\\lambda = \\frac{B + B/m}{T}\n\\]\nRelative increase in variance due to non-response \\[\nr = \\frac{B + B/m}{T}\n\\]\nNote: \\(r = \\lambda/(1-\\lambda), \\lambda = r/(r+1)\\)"
+  },
+  {
+    "objectID": "slides_03_inference.html#pooling-inferences-in-r",
+    "href": "slides_03_inference.html#pooling-inferences-in-r",
+    "title": "Data challenges (OVP)",
+    "section": "Pooling inferences in R",
+    "text": "Pooling inferences in R\n\\(t\\)-test\n\nsummary(pool(fit))\n\n         term estimate std.error statistic   df  p.value\n1 (Intercept)      183      10.4     17.63 17.4 1.57e-12\n2      hypyes       34      21.3      1.59 16.4 1.30e-01\n\n\nLinear regression\n\nfit &lt;- with(imp, lm(chl ~ age + bmi))\nsummary(pool(fit))\n\n         term estimate std.error statistic   df p.value\n1 (Intercept)   -16.63     62.51    -0.266 15.0 0.79380\n2    age40-59    52.98     17.68     2.996 17.8 0.00783\n3    age60-99    68.42     22.23     3.078 10.6 0.01098\n4         bmi     6.64      2.17     3.062 14.9 0.00797\n\n\nLogistic regression\n\nfit &lt;- with(imp, glm(hyp ~ bmi + chl, family = binomial))\nsummary(pool(fit), exponentiate = TRUE)\n\n         term estimate std.error statistic   df p.value\n1 (Intercept)  0.00757    4.7315     -1.03 14.7   0.319\n2         bmi  0.96078    0.1480     -0.27 14.1   0.791\n3         chl  1.02413    0.0167      1.43 13.8   0.175"
   },
   {
     "objectID": "slides_03_inference.html#trace-plot-for-convergence",
@@ -1095,7 +1158,7 @@
     "href": "slides_03_inference.html#passive-imputation-removing-predictors",
     "title": "Data challenges (OVP)",
     "section": "Passive imputation: removing predictors",
-    "text": "Passive imputation: removing predictors\n\n\n\npredictors &lt;- make.predictorMatrix(boys_xmpl)\npredictors\n\n    age hgt wgt bmi\nage   0   1   1   1\nhgt   1   0   1   1\nwgt   1   1   0   1\nbmi   1   1   1   0\n\npredictors[c(\"hgt\", \"wgt\"), \"bmi\"] &lt;- 0\n\n\n\n\nimp &lt;- mice(\n  boys_xmpl, \n  method = method, \n  predictorMatrix = predictors\n)"
+    "text": "Passive imputation: removing predictors\n\n\n\npredictors &lt;- make.predictorMatrix(boys_xmpl)\npredictors\n\n    age hgt wgt bmi\nage   0   1   1   1\nhgt   1   0   1   1\nwgt   1   1   0   1\nbmi   1   1   1   0\n\npredictors[c(\"hgt\", \"wgt\"), \"bmi\"] &lt;- 0\n\n\n\n\nimp &lt;- mice(\n  boys_xmpl,\n  method = method,\n  predictorMatrix = predictors\n)"
   },
   {
     "objectID": "slides_03_inference.html#when-default-pmm-fails-i",
@@ -1119,87 +1182,10 @@
     "text": "Changing imputation methods in mice\n\nmethod[\"y\"] &lt;- \"rf\"\nimp &lt;- mice(data, method = method)"
   },
   {
-    "objectID": "slides_03_inference.html#multiple-imputation-workflow",
-    "href": "slides_03_inference.html#multiple-imputation-workflow",
+    "objectID": "slides_03_inference.html#take-aways",
+    "href": "slides_03_inference.html#take-aways",
     "title": "Data challenges (OVP)",
-    "section": "Multiple imputation workflow",
-    "text": "Multiple imputation workflow"
-  },
-  {
-    "objectID": "slides_03_inference.html#missing-data-introduces-additional-uncertainty",
-    "href": "slides_03_inference.html#missing-data-introduces-additional-uncertainty",
-    "title": "Data challenges (OVP)",
-    "section": "Missing data introduces additional uncertainty",
-    "text": "Missing data introduces additional uncertainty\n\n\nWe don’t know (with certainty) what the unknown value should be\nPretending to know the unknown value underestimates uncertainty\nBut we have multiple imputed values!"
-  },
-  {
-    "objectID": "slides_03_inference.html#multiple-imputations-reflect-the-missing-data-uncertainty",
-    "href": "slides_03_inference.html#multiple-imputations-reflect-the-missing-data-uncertainty",
-    "title": "Data challenges (OVP)",
-    "section": "Multiple imputations reflect the missing data uncertainty!",
-    "text": "Multiple imputations reflect the missing data uncertainty!\n\nThe more we know about the missing value, the more accurate our imputations!"
-  },
-  {
-    "objectID": "slides_03_inference.html#analyses-with-missing-data",
-    "href": "slides_03_inference.html#analyses-with-missing-data",
-    "title": "Data challenges (OVP)",
-    "section": "Analyses with missing data",
-    "text": "Analyses with missing data\n\nUsually, the goal is not to impute the data as accurately as possible\nInstead, we want to do some interesting analysis\nE.g., a \\(t\\)-test, linear or logistic regression\n\n\nWe have multiple data sets now, how to proceed?\nTypical workflow: fit the model of interest to each imputed dataset: estimate parameter of interest and corresponding variance, and adjust for imputation uncertainty."
-  },
-  {
-    "objectID": "slides_03_inference.html#a-t-test-with-missing-data",
-    "href": "slides_03_inference.html#a-t-test-with-missing-data",
-    "title": "Data challenges (OVP)",
-    "section": "A \\(t\\)-test with missing data",
-    "text": "A \\(t\\)-test with missing data\nQ: Do individuals with hypertension have higher total serum cholesterol than individuals without hypertension.\n\nimp &lt;- mice(nhanes2)\nfit &lt;- with(imp, lm(chl ~ hyp))\nsummary(fit)\n\n# A tibble: 10 × 7\n   term        estimate std.error statistic  p.value  nobs df.residual\n   &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;       &lt;dbl&gt;\n 1 (Intercept)    188.       8.62     21.8  7.11e-17    25          23\n 2 hypyes          33.6     19.3       1.74 9.47e- 2    25          23\n 3 (Intercept)    181.       9.73     18.6  2.36e-15    25          23\n 4 hypyes          39.1     18.4       2.13 4.44e- 2    25          23\n 5 (Intercept)    182        9.55     19.1  1.38e-15    25          23\n 6 hypyes          30       21.4       1.41 1.73e- 1    25          23\n 7 (Intercept)    181.      10.7      16.9  1.82e-14    25          23\n 8 hypyes          24.1     18.9       1.28 2.15e- 1    25          23\n 9 (Intercept)    186.      10.0      18.6  2.47e-15    25          23\n10 hypyes          43.2     20.4       2.12 4.55e- 2    25          23\n\n\nMaybe: The coefficient related to hypertension (hypyes) is larger than \\(0\\) in all imputed datasets, but standard error is quite large as well.\nHow to formalize this?"
-  },
-  {
-    "objectID": "slides_03_inference.html#a-t-test-with-missing-data-visualized",
-    "href": "slides_03_inference.html#a-t-test-with-missing-data-visualized",
-    "title": "Data challenges (OVP)",
-    "section": "A \\(t\\)-test with missing data (visualized)",
-    "text": "A \\(t\\)-test with missing data (visualized)"
-  },
-  {
-    "objectID": "slides_03_inference.html#pooling-parameters-after-multiple-imputation",
-    "href": "slides_03_inference.html#pooling-parameters-after-multiple-imputation",
-    "title": "Data challenges (OVP)",
-    "section": "Pooling parameters after multiple imputation",
-    "text": "Pooling parameters after multiple imputation\n\nDefine \\(Q\\), the quantity of interest (a population parameter).\n\nIn each imputed data, estimate \\(Q\\) by \\(\\hat{Q}_j\\)\nAverage over the imputed data sets: \\(\\bar Q = \\frac 1 m \\sum_{j=1}^m \\hat{Q}_j\\)."
-  },
-  {
-    "objectID": "slides_03_inference.html#the-variance-of-bar-q-three-sources",
-    "href": "slides_03_inference.html#the-variance-of-bar-q-three-sources",
-    "title": "Data challenges (OVP)",
-    "section": "The variance of \\(\\bar Q\\): three sources",
-    "text": "The variance of \\(\\bar Q\\): three sources\n\n\n\nSampling uncertainty (we do not observe the entire population)\n\nThe usual variance that we would also have without missing data: \\(\\bar U = \\frac 1 m \\sum_{j=1}^m \\hat U_j\\)\n\n\n\n\n\n\n\nMissing data uncertainty (some information is unobserved)\n\nWe can impute, but we are seldom certain of the true underlying value\nBetween imputation uncertainty: \\(B = \\frac{1}{m-1} \\sum_{j=1}^m (\\hat Q_j - \\bar Q)'(\\hat Q_j - \\bar Q)\\)\n\n\n\n\n\n\n\nImputation uncertainty (we approximate the missing values with a finite number of draws from the posterior distribution)\n\nMore draws, the smaller our simulation error: \\(\\frac B m\\)\n\n\n\n\n\n\nTotal variance\n\nAdd all components together: \\(T = \\bar U + B + \\frac B m\\)"
-  },
-  {
-    "objectID": "slides_03_inference.html#inferences-from-bar-q",
-    "href": "slides_03_inference.html#inferences-from-bar-q",
-    "title": "Data challenges (OVP)",
-    "section": "Inferences from \\(\\bar Q\\)",
-    "text": "Inferences from \\(\\bar Q\\)\nNow we have \\(\\bar Q\\) and its variance, we can make inferences\n\nSignificance testing (or Bayesian tests)\n\nBecause the variance around \\(\\bar Q\\) is estimated from the data, inferences are based on a \\(t\\)-distribution, \\(H_0: Q = Q_0\\) vs \\(H_1: Q \\neq Q_0\\).\n\n\\(p\\)-value: \\(P\\Bigg(\\frac{|\\bar Q - Q_0|}{\\sqrt{T}} &gt; t_{(\\nu, 1-\\alpha/2)}\\Bigg)\\)\n\n\\(\\nu\\): degrees of freedom (given by software)\n\n\n\n\\(100(1-\\alpha)\\%\\) confidence interval: \\(\\bar Q \\pm t_{(\\nu, 1-\\alpha/2)}\\cdot \\sqrt{T}\\)"
-  },
-  {
-    "objectID": "slides_03_inference.html#how-much-information-is-contained-in-the-missing-data",
-    "href": "slides_03_inference.html#how-much-information-is-contained-in-the-missing-data",
-    "title": "Data challenges (OVP)",
-    "section": "How much information is contained in the missing data?",
-    "text": "How much information is contained in the missing data?\nProportion of variance attributable to the missing data \\[\n\\lambda = \\frac{B + B/m}{T}\n\\]\nRelative increase in variance due to non-response \\[\nr = \\frac{B + B/m}{T}\n\\]\nNote: \\(r = \\lambda/(1-\\lambda), \\lambda = r/(r+1)\\)"
-  },
-  {
-    "objectID": "slides_03_inference.html#pooling-inferences-in-r",
-    "href": "slides_03_inference.html#pooling-inferences-in-r",
-    "title": "Data challenges (OVP)",
-    "section": "Pooling inferences in R",
-    "text": "Pooling inferences in R\n\\(t\\)-test\n\nsummary(pool(fit))\n\n         term estimate std.error statistic   df  p.value\n1 (Intercept)      183      10.4     17.63 17.4 1.57e-12\n2      hypyes       34      21.3      1.59 16.4 1.30e-01\n\n\n\nLinear regression\n\nfit &lt;- with(imp, lm(chl ~ age + bmi))\nsummary(pool(fit))\n\n         term estimate std.error statistic   df p.value\n1 (Intercept)   -16.63     62.51    -0.266 15.0 0.79380\n2    age40-59    52.98     17.68     2.996 17.8 0.00783\n3    age60-99    68.42     22.23     3.078 10.6 0.01098\n4         bmi     6.64      2.17     3.062 14.9 0.00797\n\n\n\n\nLogistic regression\n\nfit &lt;- with(imp, glm(hyp ~ bmi + chl, family = binomial))\nsummary(pool(fit), exponentiate = TRUE)\n\n         term estimate std.error statistic   df p.value\n1 (Intercept)  0.00757    4.7315     -1.03 14.7   0.319\n2         bmi  0.96078    0.1480     -0.27 14.1   0.791\n3         chl  1.02413    0.0167      1.43 13.8   0.175"
-  },
-  {
-    "objectID": "slides_03_inference.html#when-not-to-use-multiple-imputation-1",
-    "href": "slides_03_inference.html#when-not-to-use-multiple-imputation-1",
-    "title": "Data challenges (OVP)",
-    "section": "When not to use multiple imputation",
-    "text": "When not to use multiple imputation\nLinear regression\n\nMissing data in \\(Y\\) only (for regression coefficients, not for, e.g., \\(R^2\\))\n\nIf there are predictors of \\(Y\\) that are not in the regression model, MI remains beneficial\n\n\n\nLogistic regression\n\nIf missing data occurs in either \\(Y\\) or \\(X\\), but not both, regression coefficients (except for the intercept) can be estimated correctly\n\n\n\nAny regression model\n\nIf missingness does not depend on \\(Y\\) and the analysis model is correctly specified"
+    "section": "Take aways",
+    "text": "Take aways\n\nGenerating imputation is followed by analysis and pooling steps\nMultiple imputation yields correct hypothesis tests and confidence intervals from incomplete data\nInspect imputed values for plausibility"
   }
 ]
