@@ -1,14 +1,14 @@
 ---
-title: "Beslissen met onvolledige informatie"
+title: "Data challenges (OVP)"
 subtitle: "Missende data en multipele imputatie met `mice`"
-author: "Amices - Missing Data research group"
+author: "amices - Missing Data Research Group"
 institute: "Universiteit Utrecht"
 format: 
   revealjs:
     embed-resources: true
     progress: true
     logo: UU_logo.png
-    footer: "Beslissen met onvolledige informatie - Methoden & Statistiek, Universiteit Utrecht"
+    footer: "Data challenges - Methoden & Statistiek, Universiteit Utrecht"
     slide-number: true
     show-slide-number: all
     incremental: true

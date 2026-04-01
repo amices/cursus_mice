@@ -1,6 +1,8 @@
 ---
-title: "Data challenges"
+title: "Data challenges (Onderwijs voor Professionals)"
 subtitle: "Missende data en multipele imputatie met `mice`"
+author: amices - Missing Data Research Group
+date: April 3, 2026 
 format: 
   html:
     embed-resources: true

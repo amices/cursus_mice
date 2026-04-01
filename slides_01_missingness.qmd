@@ -1,14 +1,14 @@
 ---
-title: "Beslissen met onvolledige informatie"
+title: "Data challenges (OVP)"
 subtitle: "Missende data en multipele imputatie met `mice`"
-author: "Amices - Missing Data research group"
+author: "amices - Missing Data Research Group"
 institute: "Universiteit Utrecht"
 format: 
   revealjs:
     embed-resources: true
     progress: true
     logo: UU_logo.png
-    footer: "Beslissen met onvolledige informatie - Methoden & Statistiek, Universiteit Utrecht"
+    footer: "Data challenges - Methoden & Statistiek, Universiteit Utrecht"
     slide-number: true
     show-slide-number: all
     incremental: true
@@ -33,7 +33,7 @@ library(xtable)
 
 ```{r}
 dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
-ggmice(dat, aes(x,y)) +
+ggmice(dat, aes(x, y)) +
   geom_point(size = 3) +
   labs(x = "", y = "")
 ```
@@ -171,7 +171,7 @@ Missing data caused by the subject:
 
 ```{r}
 dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
-ggmice(dat, aes(x,y)) +
+ggmice(dat, aes(x, y)) +
   geom_point() +
   labs(x = "", y = "")
 ```
@@ -184,15 +184,21 @@ dat <- data.frame(
   X = rep(1, 5)
 )
 R <- data.frame(apply(!is.na(dat), 2, as.numeric))
-long_R <- data.frame(row = 1:5, vrb = c(rep("Y", 5), rep("X", 5)), ind = as.numeric(!is.na(dat)))
+long_R <- data.frame(
+  row = 1:5,
+  vrb = c(rep("Y", 5), rep("X", 5)),
+  ind = as.numeric(!is.na(dat))
+)
 # plot
 ggplot(long_R, aes(x = vrb, y = row, fill = as.factor(ind))) +
   geom_tile(color = "black") +
   scale_y_reverse() +
-  scale_fill_manual(values = c(
-    "1" = "#006CC2B3",
-    "0" = "#B61A51B3"
-  )) +
+  scale_fill_manual(
+    values = c(
+      "1" = "#006CC2B3",
+      "0" = "#B61A51B3"
+    )
+  ) +
   scale_x_discrete(position = "top") +
   coord_fixed(expand = FALSE) +
   ggmice:::theme_minimice() +
@@ -287,7 +293,7 @@ Do "nothing":
 
 ```{r}
 dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
-ggmice(dat, aes(x,y)) +
+ggmice(dat, aes(x, y)) +
   geom_point(size = 3) +
   labs(x = "", y = "")
 ```
@@ -314,7 +320,7 @@ ggmice(dat, aes(x,y)) +
 
 ```{r}
 dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
-ggmice(dat, aes(x,y)) +
+ggmice(dat, aes(x, y)) +
   geom_point(size = 3) +
   labs(x = "", y = "")
 ```
@@ -364,7 +370,9 @@ ggplot(dat, aes(x = age, y = income)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mcar, shape = ind_mcar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -376,7 +384,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mcar, shape = ind_mcar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mcar)) +
   geom_boxplot() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(y = "Income", color = "")
 ```
@@ -387,7 +397,9 @@ ggplot(dat, aes(y = income, color = ind_mcar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mcar)) +
   geom_density() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(x = "Distribution", y = "Income", color = "")
 ```
@@ -403,7 +415,9 @@ ggplot(dat, aes(y = income, color = ind_mcar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mar, shape = ind_mar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -414,7 +428,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mar, shape = ind_mar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mar)) +
   geom_boxplot() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(y = "Income", color = "")
 ```
@@ -424,7 +440,9 @@ ggplot(dat, aes(y = income, color = ind_mar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mar)) +
   geom_density() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(x = "Distribution", y = "Income", color = "")
 ```
@@ -437,10 +455,12 @@ names(age_labs) <- c(FALSE, TRUE)
 
 ggplot(dat, aes(y = income, color = ind_mar)) +
   geom_density() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(x = "Distribution", y = "Income", color = "") +
-  facet_wrap(~age > 35, nrow = 1, labeller = labeller(`age > 35` = age_labs))
+  facet_wrap(~ age > 35, nrow = 1, labeller = labeller(`age > 35` = age_labs))
 ```
 
 ## Missing higher incomes
@@ -453,7 +473,9 @@ ggplot(dat, aes(y = income, color = ind_mar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mnar, shape = ind_mnar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -464,7 +486,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mnar, shape = ind_mnar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mnar)) +
   geom_boxplot() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(y = "Income", color = "")
 ```
@@ -474,7 +498,9 @@ ggplot(dat, aes(y = income, color = ind_mnar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mnar)) +
   geom_density() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(x = "Distribution", y = "Income", color = "")
 ```
@@ -503,7 +529,9 @@ ggplot(dat, aes(y = income, color = ind_mnar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mcar, shape = ind_mcar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -522,7 +550,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mcar, shape = ind_mcar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mar, shape = ind_mar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -541,7 +571,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mar, shape = ind_mar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mnar, shape = ind_mnar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -622,24 +654,42 @@ imp <- mice(airquality, method = "mean", m = 1, maxit = 1, print = FALSE)
 ## ----plotmeanimp, duo = TRUE, echo=FALSE, fig.width=4.5, fig.height=2.25----
 lwd <- 0.6
 data <- complete(imp)
-Yobs <- airquality[,"Ozone"]
-Yimp <- data[,"Ozone"]
-mi.hist(Yimp, Yobs,b=seq(-20,200,10),type="continuous",
-        gray=F,lwd = lwd,
-        obs.lwd=1.5, mis.lwd=1.5, imp.lwd=1.5,
-        obs.col=mdc(4), mis.col=mdc(5), imp.col="transparent",
-        mlt=0.08,main="",xlab="Ozone (ppb)",
-        axes = FALSE)
+Yobs <- airquality[, "Ozone"]
+Yimp <- data[, "Ozone"]
+mi.hist(
+  Yimp,
+  Yobs,
+  b = seq(-20, 200, 10),
+  type = "continuous",
+  gray = F,
+  lwd = lwd,
+  obs.lwd = 1.5,
+  mis.lwd = 1.5,
+  imp.lwd = 1.5,
+  obs.col = mdc(4),
+  mis.col = mdc(5),
+  imp.col = "transparent",
+  mlt = 0.08,
+  main = "",
+  xlab = "Ozone (ppb)",
+  axes = FALSE
+)
 box(lwd = 1)
 ```
 
 ## Mean imputation
 
 ```{r}
-plot(data[cci(imp),2:1],col=mdc(1), lwd=1.5,ylab="Ozone (ppb)",
-     xlab="Solar Radiation (lang)",ylim=c(-10,170),
-     axes = FALSE)
-points(data[ici(imp),2:1],col=mdc(2),lwd=1.5)
+plot(
+  data[cci(imp), 2:1],
+  col = mdc(1),
+  lwd = 1.5,
+  ylab = "Ozone (ppb)",
+  xlab = "Solar Radiation (lang)",
+  ylim = c(-10, 170),
+  axes = FALSE
+)
+points(data[ici(imp), 2:1], col = mdc(2), lwd = 1.5)
 axis(1, lwd = lwd)
 axis(2, lwd = lwd, las = 1)
 box(lwd = 1)
@@ -673,26 +723,45 @@ pred <- predict(fit, newdata = ic(airquality))
 
 ## ----plotregimp, duo = TRUE, echo=FALSE, fig.width=4.5, fig.height=2.25----
 lwd <- 0.6
-Yobs <- airquality[,"Ozone"]
+Yobs <- airquality[, "Ozone"]
 Yimp <- Yobs
 Yimp[ici(airquality)] <- pred
 ss <- cci(airquality$Solar.R)
-data <- data.frame(Ozone=Yimp, Solar.R=airquality$Solar.R)
-mi.hist(Yimp[ss], Yobs[ss],b=seq(-20,200,10),type="continuous",
-        gray=F, lwd = lwd,
-        obs.lwd=1.5, mis.lwd=1.5, imp.lwd=1.5,
-        obs.col=mdc(4),mis.col=mdc(5), imp.col="transparent",
-        mlt=0.08,main="",xlab="Ozone (ppb)", axes = FALSE)
+data <- data.frame(Ozone = Yimp, Solar.R = airquality$Solar.R)
+mi.hist(
+  Yimp[ss],
+  Yobs[ss],
+  b = seq(-20, 200, 10),
+  type = "continuous",
+  gray = F,
+  lwd = lwd,
+  obs.lwd = 1.5,
+  mis.lwd = 1.5,
+  imp.lwd = 1.5,
+  obs.col = mdc(4),
+  mis.col = mdc(5),
+  imp.col = "transparent",
+  mlt = 0.08,
+  main = "",
+  xlab = "Ozone (ppb)",
+  axes = FALSE
+)
 box(lwd = 1)
 ```
 
 ## Regression imputation
 
 ```{r}
-plot(data[cci(imp),2:1],col=mdc(1),lwd=1.5,
-     ylab="Ozone (ppb)", xlab="Solar Radiation (lang)",
-     ylim=c(-10,170), axes = FALSE)
-points(data[ici(imp),2:1],col=mdc(2),lwd=1.5)
+plot(
+  data[cci(imp), 2:1],
+  col = mdc(1),
+  lwd = 1.5,
+  ylab = "Ozone (ppb)",
+  xlab = "Solar Radiation (lang)",
+  ylim = c(-10, 170),
+  axes = FALSE
+)
+points(data[ici(imp), 2:1], col = mdc(2), lwd = 1.5)
 axis(1, lwd = lwd)
 axis(2, lwd = lwd, las = 1)
 box(lwd = 1)
@@ -710,7 +779,12 @@ box(lwd = 1)
 ## Case study
 
 ```{r, echo=FALSE}
-knitr::kable(tail(mice::nhanes), format = "markdown", row.names = FALSE, digits = 2)
+knitr::kable(
+  tail(mice::nhanes),
+  format = "markdown",
+  row.names = FALSE,
+  digits = 2
+)
 ```
 
 <br>
