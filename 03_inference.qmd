@@ -35,7 +35,7 @@ In this practical, you will work with a different dataset than in the previous t
 
 ---
 
-```{r setup, warning=FALSE, message=FALSE}
+```{r data, warning=FALSE, message=FALSE}
 boys <- boys[, 1:4]
 
 help(boys)
