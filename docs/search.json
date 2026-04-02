@@ -532,7 +532,7 @@
     "href": "00_index.html",
     "title": "Data challenges (Onderwijs voor Professionals)",
     "section": "",
-    "text": "I. Omgaan met onvolledige informatie\n\nVerschillende soorten missende data en missende data mechanismes\nAd-hoc fixes: listwise deletion, mean imputatie, multipele imputatie\n+/- 20-min practical: data laden, listwise deletion en mean imputation\n\nII. Multipele imputatie: Multivariate - Flexibele modellen voor multipele imputatie - Visualisatie met ggmice - +/- 20-min practical: multipele imputatie met mice; modelspecificatie\nIII. Correcte inferenties met onvolledige informatie - Modelevaluatie (met ggmice), en pooling - +/- 20-min practical: inferentie en evaluatie",
+    "text": "I. Omgaan met onvolledige informatie\n\nVerschillende soorten missende data en missende data mechanismes\nAd-hoc fixes: listwise deletion, mean imputatie, multipele imputatie\n+/- 20-min practical: data laden, listwise deletion en mean imputation\n\nII. Multipele imputatie: Multivariate\n\nFlexibele modellen voor multipele imputatie\nVisualisatie met ggmice\n+/- 20-min practical: multipele imputatie met mice; modelspecificatie\n\nIII. Correcte inferenties met onvolledige informatie\n\nModelevaluatie (met ggmice), en pooling\n+/- 20-min practical: inferentie en evaluatie",
     "crumbs": [
       "Overzicht"
     ]
@@ -542,7 +542,7 @@
     "href": "00_index.html#overzicht",
     "title": "Data challenges (Onderwijs voor Professionals)",
     "section": "",
-    "text": "I. Omgaan met onvolledige informatie\n\nVerschillende soorten missende data en missende data mechanismes\nAd-hoc fixes: listwise deletion, mean imputatie, multipele imputatie\n+/- 20-min practical: data laden, listwise deletion en mean imputation\n\nII. Multipele imputatie: Multivariate - Flexibele modellen voor multipele imputatie - Visualisatie met ggmice - +/- 20-min practical: multipele imputatie met mice; modelspecificatie\nIII. Correcte inferenties met onvolledige informatie - Modelevaluatie (met ggmice), en pooling - +/- 20-min practical: inferentie en evaluatie",
+    "text": "I. Omgaan met onvolledige informatie\n\nVerschillende soorten missende data en missende data mechanismes\nAd-hoc fixes: listwise deletion, mean imputatie, multipele imputatie\n+/- 20-min practical: data laden, listwise deletion en mean imputation\n\nII. Multipele imputatie: Multivariate\n\nFlexibele modellen voor multipele imputatie\nVisualisatie met ggmice\n+/- 20-min practical: multipele imputatie met mice; modelspecificatie\n\nIII. Correcte inferenties met onvolledige informatie\n\nModelevaluatie (met ggmice), en pooling\n+/- 20-min practical: inferentie en evaluatie",
     "crumbs": [
       "Overzicht"
     ]

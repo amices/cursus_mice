@@ -17,11 +17,13 @@ format:
 - +/- 20-min practical: data laden, listwise deletion en mean imputation
 
 [II. Multipele imputatie: Multivariate](02_imputation.qmd) 
+
 - Flexibele modellen voor multipele imputatie
 - Visualisatie met ggmice
 - +/- 20-min practical: multipele imputatie met mice; modelspecificatie
 
 [III. Correcte inferenties met onvolledige informatie](03_inference.qmd)
+
 - Modelevaluatie (met ggmice), en pooling
 - +/- 20-min practical: inferentie en evaluatie
     
