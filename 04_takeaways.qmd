@@ -20,4 +20,3 @@ To deepen your understanding of missing data mechanisms, multiple imputation, an
 
 The GitHub repository for *mice* ([https://github.com/amices/mice](https://github.com/amices/mice)) provides access to development updates, example workflows, and a community forum for discussing implementation details and troubleshooting.
 
-For those who are not convinced of using R after today, there is also imputation methodology available in SPSS. The [IBM SPSS Missing Data documentation](https://www.ibm.com/docs/en/spss-statistics/29.0.0?topic=data-handling-missing) describes the methods SPSS uses to estimate and impute missing data, including a version of the *mice* algorithm, called fully conditional specification (FCS). These manuals are accessible through IBM’s Knowledge Center or within the SPSS Help system under [“Multiple Imputation”](https://www.ibm.com/docs/en/spss-statistics/29.0.0?topic=values-multiple-imputation).

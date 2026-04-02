@@ -188,8 +188,8 @@ We have seen that imputation is straightforward with `mice`. However, don't let 
 
 **References**
 
-Rubin, D. B. *Multiple imputation for nonresponse in surveys*. John Wiley & Sons, 1987. [Amazon](http://www.amazon.com/Multiple-Imputation-Nonresponse-Surveys-Donald/dp/0471655740/ref=sr_1_1?ie=UTF8&qid=1434466788&sr=8-1&keywords=Multiple+imputation+for+nonresponse+in+surveys)
+Rubin, D. B. *Multiple imputation for nonresponse in surveys*. John Wiley & Sons, 1987.
 
-Schafer, J.L. (1997). *Analysis of Incomplete Multivariate Data*. London: Chapman & Hall. Table 6.14. [Amazon](http://www.amazon.com/Incomplete-Multivariate-Monographs-Statistics-Probability/dp/0412040611/ref=sr_1_1?ie=UTF8&qid=1434466828&sr=8-1&keywords=Analysis+of+Incomplete+Multivariate+Data)
+Schafer, J.L. (1997). *Analysis of Incomplete Multivariate Data*. London: Chapman & Hall.
 
 Van Buuren, S. and Groothuis-Oudshoorn, K. (2011). mice: Multivariate Imputation by Chained Equations in R. *Journal of Statistical Software*, 45(3), 1-67. [pdf](http://www.jstatsoft.org/v45/i03/paper)

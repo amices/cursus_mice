@@ -18,19 +18,24 @@ Het hoorcollege van dit deel is beschikbaar [via deze link](slides_03_inference.
 
 ---
 
-In this practical, you will work with a different dataset than in the previous two. Today, we will work with a subset of the `boys` data. The `boys` data contains some biometric characteristics of 748 Dutch boys. In this practical, we will solely work with the first four variables: `age`, `hgt` (height in m), `wgt` (weight in kg) and `bmi`.
-
----
-
-**0. Setup: Load the required packages `mice`, `ggmice` and `ggplot2` if you have not done so already, and create the subset of the `boys` data. Inspect the dataset and the missing data pattern. How many patterns occur for which the variable `bmi` is missing?**
-
----
+If you have not done so already, load the required packages `mice`, `ggmice` and `ggplot2`, and set a seed for the random number generator.
 
 ```{r setup, warning=FALSE, message=FALSE}
 library(mice)
 library(ggmice)
 library(ggplot2)
+set.seed(123)
+```
 
+In this practical, you will work with a different dataset than in the previous two. We will work with a subset of the `boys` data. The `boys` data contains some biometric characteristics of 748 Dutch boys. In this practical, we will solely work with the first four variables: `age`, `hgt` (height in m), `wgt` (weight in kg) and `bmi`.
+
+---
+
+**0. Setup: Create the subset of the `boys` data. Inspect the dataset and the missing data pattern. How many patterns occur for which the variable `bmi` is missing?**
+
+---
+
+```{r data, warning=FALSE, message=FALSE}
 boys <- boys[, 1:4]
 
 help(boys)
@@ -38,7 +43,7 @@ help(boys)
 
 plot_pattern(boys)
 
-mpat <- md.pattern(boys)
+mpat <- md.pattern(boys, plot = FALSE)
 sum(mpat[, "bmi"] == 0)
 ```
 Answer: 3 patterns (21 cases)
@@ -119,7 +124,7 @@ plot_pred(pred, method = method)
 ---
 
 ```{r, cache=FALSE}
-imp <- mice(boys, meth = method, predictorMatrix = pred, print = FALSE)
+imp <- mice(boys, meth = method, pred = pred, print = FALSE)
 ```
 We may now again plot trace lines to study convergence
 ```{r, cache = FALSE}
@@ -192,26 +197,6 @@ summary(pool(fit1))
 Both variables are strongly related to `wgt` (which is of course no surprise). The column `estimate` displays the pooled regression coefficient. The column `std.error` provides the pooled standard error, that is, the square root of the total variance $T = \bar U + B + B/m$. The test statistic is calculated as `estimate/std.error`, and the degrees of freedom are calculated according to the Barnard-Rubin degrees of freedom (if you're curious, you can type `mice:::barnard.rubin` (without function parenthesis) to see how these degrees of freedom are calculated).
 
 ---
-
-While we strongly advocate for the use of `R`, we do acknowledge that some users might use other software for statistical analyses. To accommodate these users, `mice` contains a `mids2spss()` function, that allows to extract the imputed data as a `.sav` file, which can be opened in SPSS. Do note that we are actively working on a multiple imputation module in `JASP`, a free and open-source alternative to `SPSS`. If you're curious, you can find `JASP` [here](https://jasp-stats.org/).
-
-**OPTIONAL: 9. Export the imputed data to a `.sav`-file, and open the data in `SPSS` to reproduce our analysis.**
-
-```{r}
-mids2spss(imp20, path = tempdir())
-```
-
-Now, you can open this data in `SPSS` in the usual way. Before `SPSS` recognizes the data as a multiply imputed data set, you must `split` the data by the `Imputation_` variable. This can be done as follows:
-
-![](img/spss-split-file.png)
-
-After you have done this, you can run the regression analysis by going to "Analyze > Linear regression" like so.
-
-![](img/spss-regression.png)
-
-Finally, you can verify that the results are indeed identical to the results obtained in `R` by inspecting the following output.
-
-![](img/spss-results.png)
 
 ### Conclusion
 
