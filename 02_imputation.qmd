@@ -38,7 +38,7 @@ library(ggplot2)
 set.seed(123)
 ```
 
-**1.  Let us impute the missing data in the `nhanes` dataset**
+**1.  Let us multiply impute the missing data in the `nhanes` dataset**
 
 ```{r, cache=TRUE}
 imp <- mice(nhanes)
@@ -113,7 +113,12 @@ ini <- mice(nhanes, maxit = 0, print = FALSE)
 pred <- ini$pred
 pred
 ```
-The object `pred` contains the predictor matrix from an initial run of `mice` with zero iterations, specified by `maxit = 0`. Altering the predictor matrix and returning it to the mice algorithm is very simple. For example, the following code removes the variable `hyp` from the set of predictors, but still leaves it to be predicted by the other variables.
+The object `pred` contains the predictor matrix from an initial run of `mice` with zero iterations, specified by `maxit = 0`. An equivalent workflow for creating a predictor matrix is with the function `make.predictorMatrix()`. 
+```{r, cache=FALSE}
+pred <- make.predictorMatrix(nhanes)
+pred
+```
+Altering the predictor matrix and returning it to the mice algorithm is very simple. For example, the following code removes the variable `hyp` from the set of predictors, but still leaves it to be predicted by the other variables.
 ```{r, cache = FALSE}
 pred[ ,"hyp"] <- 0
 pred
@@ -133,8 +138,8 @@ info. Selecting predictors according to data relations with a minimum
 correlation of $\rho=.30$ can be
 done by
 ```{r, cache=FALSE}
-ini <- mice(nhanes, pred = quickpred(nhanes, mincor = .3), print = FALSE)
-ini$pred
+pred <- quickpred(nhanes, mincor = .3)
+pred
 ```
 For large predictor matrices, it can be useful to export them
 to Microsoft Excel for easier configuration (e.g. see the
@@ -142,7 +147,7 @@ to Microsoft Excel for easier configuration (e.g. see the
 
 Visualizing the predictor matrix in `R` is done with
 ```{r}
-plot_pred(ini$pred, method = ini$meth)
+plot_pred(pred)
 ```
 
 ---
@@ -174,4 +179,4 @@ purrr::map(names(imp$data), ~ {
 
 **References**
 
-Rubin, D. B. *Multiple imputation for nonresponse in surveys*. John Wiley & Sons, 1987. [Amazon](http://www.amazon.com/Multiple-Imputation-Nonresponse-Surveys-Donald/dp/0471655740/ref=sr_1_1?ie=UTF8&qid=1434466788&sr=8-1&keywords=Multiple+imputation+for+nonresponse+in+surveys)
+Rubin, D. B. *Multiple imputation for nonresponse in surveys*. John Wiley & Sons, 1987.
