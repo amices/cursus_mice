@@ -1,17 +1,17 @@
 ---
-title: "Beslissen met onvolledige informatie"
+title: "Data challenges (OVP)"
 subtitle: "Missende data en multipele imputatie met `mice`"
-author: "Amices - Missing Data research group"
+author: "amices - Missing Data Research Group"
 institute: "Universiteit Utrecht"
 format: 
   revealjs:
     embed-resources: true
     progress: true
     logo: UU_logo.png
-    footer: "Beslissen met onvolledige informatie - Methoden & Statistiek, Universiteit Utrecht"
+    footer: "Data challenges - Methoden & Statistiek, Universiteit Utrecht"
     slide-number: true
     show-slide-number: all
-    incremental: true
+    incremental: false
     fontsize: 22pt
     title-slide-attributes:
       data-background-image: img/bg.jpg
@@ -24,18 +24,6 @@ library(ggmice)
 library(ggplot2)
 library(knitr)
 library(xtable)
-```
-
-## Incomplete data
-
-<br>
-<br>
-
-```{r}
-dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
-ggmice(dat, aes(x,y)) +
-  geom_point(size = 3) +
-  labs(x = "", y = "")
 ```
 
 ## Cursusoutline
@@ -52,9 +40,15 @@ ggmice(dat, aes(x,y)) +
 
 ## Cursuswebsite
 
-![](QR.png)
+```{r}
+#| echo: false
+#| fig-width: 2
+#| fig-height: 2
+library(qrcode)
+plot(qr_code("http://amices.org/cursus_mice/00_index.html"))
+```
 
-[https://hanneoberman.github.io/antonius](https://hanneoberman.github.io/antonius){target="_blank"}
+[https://github.com/amices/cursus_mice](https://github.com/amices/cursus_mice){target="_blank"}
 
 # Het probleem van missende data {background-color="#FFCD00"}
 
@@ -65,7 +59,11 @@ ggmice(dat, aes(x,y)) +
 
 ## Missing data
 
-![](img/missing-data.png){fig-align="center" width=20%}
+> Sooner or later (usually sooner), anyone who does statistical analysis runs into problems with missing data 
+> 
+> - *David Allison, 2002*
+
+![](img/spss-missing.png){fig-align="center" width=20%}
 
 ## Definition
 
@@ -74,77 +72,29 @@ Missing values
 - are those values that are not observed
 - do exist in theory, but we are unable to see them
 
-## Non-response
+## Why values can be missing
+
+Missingness can occur for a lot of reasons. For example
+
+- death, dropout, refusal
+- routing, experimental design
+- join, merge, bind
+- too far away, too small to observe
+- power failure, budget exhausted, bad luck
+
+## Item and unit non-response
 
 Missing values can occur at the cell/row/column level
 
 - Item non-response: some, but not all, responses missing for a case
 - Unit non-response: no observed response at all for a case 
 
-## Loosing data
+## Intentional and unintentional
 
-<!-- TODO: center image on slide -->
-
-::: {.center}
-
-```{mermaid}
-%%| fig-width: 6.5
-flowchart TD
-  A[population] --> B((sample)) --> C([incomplete<br> sample])
-  style C stroke:#f66,stroke-width:2px,stroke-dasharray: 5 5
-```
-
-:::
-
-
-## Statistical inference framework
-
-<!-- ::: {.columns} -->
-
-<!-- :::: -->
-- incomplete cases (e.g. drop-out)
-- self-selection (e.g. opt-in sample)
-- extrapolating beyond your data (e.g. prediction)
-
-```{mermaid}
-flowchart TD
-  A[population] <--> B((sample))
-```
-
-## Causal inference framework
-
-- missing variables (e.g. storks and babies)
-- data which might have been (e.g. smoking and lung cancer)
-- missing what matters (e.g. crashed planes)
-
-```{mermaid}
-flowchart LR
-  A[cause] --> B[effect]
-```
-
-## Dark data
-
-![](img/darkdata.jpg){fig-align="center" width=20%}
-
-> Your theory may be perfectly sound for your data, but your data will have limits. ^[Hand 2020, p. 15]
-
-## Definition
-
-Dark data 
-
-- are concealed from us 
-- put us at risk 
-    - of misunderstanding, 
-    - of drawing incorrect conclusions, and 
-    - of making poor decisions
-
-## Intentionality
-
-You can classify missing values in three groups
+You can classify missing values in two groups
 
 -   Missing values that should have been observed (unintentional)
 -   Missing values that should not have been observed (intentional)
--   Missing values whose true value can be deduced from the observed data (deductive missings)
 
 ## Intentional missing data
 
@@ -167,176 +117,39 @@ Missing data caused by the subject:
 
 ![](img/table.png){height="600"}
 
-## Incomplete sample
 
-```{r}
-dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
-ggmice(dat, aes(x,y)) +
-  geom_point() +
-  labs(x = "", y = "")
-```
+## Dark data
 
-## Missingness matrix
+![](img/darkdata.jpg){fig-align="center" height="600"}
 
-```{r}
-dat <- data.frame(
-  Y = c(1, 1, 1, NA, 1),
-  X = rep(1, 5)
-)
-R <- data.frame(apply(!is.na(dat), 2, as.numeric))
-long_R <- data.frame(row = 1:5, vrb = c(rep("Y", 5), rep("X", 5)), ind = as.numeric(!is.na(dat)))
-# plot
-ggplot(long_R, aes(x = vrb, y = row, fill = as.factor(ind))) +
-  geom_tile(color = "black") +
-  scale_y_reverse() +
-  scale_fill_manual(values = c(
-    "1" = "#006CC2B3",
-    "0" = "#B61A51B3"
-  )) +
-  scale_x_discrete(position = "top") +
-  coord_fixed(expand = FALSE) +
-  ggmice:::theme_minimice() +
-  labs(x = NULL, y = NULL, fill = "R")
-```
+## Dark data? Missing values?
 
+> Dark data are concealed from us, and that very fact means we are at risk of misunderstanding, of drawing incorrect conclusions, and of making poor decisions.
+>
+> — *David J. Hand, 2020*
 
-## Strategies
+> Missing values are unobserved values that would be meaningful for analysis if observed; in other words, a missing value hides a meaningful value.
+>
+> — *Roderick J.A. Little & Donald B. Rubin, 2020*
 
-> Sooner or later (usually sooner), anyone who does statistical analysis runs into problems with missing data^[Allison, 2002].
+## Consequences of missing data
 
-- Prevention
-- Ignoring missing data
-- Treating missing data
+- Cannot calculate, not even the mean
+- Less information than planned
+- Enough statistical power?
+- Different analyses, different $n$'s
+- Systematic biases in the analysis
+- Appropriate confidence interval, $P$-values?
 
-## Prevention
+Missing data can severely complicate interpretation and analysis
 
-> Obviously the best way to treat missing data is not to have them^[Orchard and Woodbury, 1972].
+## Strategies to cope with missing data
 
--   Design: Short time intervals, low number of variables, test with pilot study
--   Collection: Incentives, match mode (e.g. interviewer-respondent), quick follow-up, retrieve missing data
--   Measures: Use short forms, minimize intrusive measures, maximize clarity, use supportive layout/UX design
--   Treatment: Minimize burden and intensity
+- **Prevent**: Get the complete data (without deleting info!)
+- **Ignore**: Let the software handle it
+- **Treat**: Account for the reasons why data are missing
 
-## Ignoring missing data
-
-Do nothing:
-  -   Cannot calculate statistics, not even the mean
-
-. . . 
-
-Do "nothing":
-  - Deletion-based methods are applied by default
-  - Using only a complete subset of the data
-
-
-## Strategies
-
-- Prevention
-- Ignoring missing data
-- Treating missing data
-    - Deletion-based methods
-    - Weighting
-    - Likelihood-based methods
-    - Ad-hoc imputation methods
-    - Multiple imputation
-
-## Strategies
-
-::: {.nonincremental}
-- ~~Prevention~~
-- ~~Ignoring missing data~~
-- Treating missing data
-    - Deletion-based methods
-    - ~~Weighting~~ 
-    - ~~Likelihood-based methods~~ 
-    - Ad-hoc imputation methods
-    - Multiple imputation
-:::
-
-## Deletion-based methods
-
--   List-wise deletion: 
-    - Any row that contains missings are omitted from the analyses
-    - Discards *all* cases with missing data
-    - Reduces sample size
-    - May introduce bias
-    
--   Pair-wise deletion:
-    - Incomplete pairs are not considered
-    - Uses all available data for each analysis
-    - Different analysis, different $n$
-    - May introduce bias
-    
-    <!-- -   Less information than planned -->
-    <!-- -   Enough statistical power? -->
-
-## Listwise deletion
-
--   Analyze only the complete records
--   Also know as: complete-case analysis
--   Advantages
-    -   Simple (default in most software)
-    -   Unbiased only under strict conditions
-    -   Conservative standard errors, significance levels
-    -   Two special properties in regression
-
-## Incomplete data
-
-<br>
-<br>
-
-```{r}
-dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
-ggmice(dat, aes(x,y)) +
-  geom_point(size = 3) +
-  labs(x = "", y = "")
-```
-
-## Listwise deletion
-
--   Disadvantages
-    -   Wasteful
-    -   May not be possible
-    -   Larger standard errors
-    -   Biased under most conditions, even for simple statistics like the mean
-    -   Inconsistencies in reporting
-
-<!-- ## Listwise deletion: Special properties -->
-
-<!-- -   For any regression with missing data in the predictors, estimates under listwise deletion are unbiased as long as the missingness does not depend on the outcome. Even some MNAR cases (Glynn 1986; Little 1992). -->
-<!-- -   In logistic regression only: With missing data in either the outcome $Y$ or the predictors $X$ (but not both), estimates of regression weights (but not the intercept) after listwise deletion are unbiased as long as the missingness depends only on $Y$ (and not on $X$!) (Vach 1994). This property is widely exploited in case-control studies in epidemiology. -->
-<!-- -   See FIMD 2.7: <https://stefvanbuuren.name/fimd/sec-when.html> -->
-
-## Incomplete data
-
-<br>
-<br>
-
-```{r}
-dat <- data.frame(x = 1:5, y = c(0.1, 0.6, 0.8, NA, 0.3))
-ggmice(dat, aes(x,y)) +
-  geom_point(size = 3) +
-  labs(x = "", y = "")
-```
-
-## Types of missingness
-
-- Not data dependent 
-  - It’s missing for reasons unrelated to the data
-  - Probability to be missing is constant for all units
-- Seen data dependent 
-  - It’s missing for reasons related to data you have got
-  - Probability to be missing depends on *observed* data 
-- Unseen data dependent 
-  - Missing because of the values you would have obtained
-  - Probability to be missing depends on *unobserved* data 
-
-## Missing data mechanisms in practice
-
-- Survey data
-- Variable of interest: income
-- Income is missing for some people
-- Age is observed for everyone
+## Example
 
 <!-- MCAR	Nothing (completely random)	Survey glitch causes random missing responses -->
 <!-- MAR	Observed data	Younger people more likely to skip income question -->
@@ -364,7 +177,9 @@ ggplot(dat, aes(x = age, y = income)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mcar, shape = ind_mcar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -376,7 +191,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mcar, shape = ind_mcar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mcar)) +
   geom_boxplot() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(y = "Income", color = "")
 ```
@@ -387,7 +204,9 @@ ggplot(dat, aes(y = income, color = ind_mcar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mcar)) +
   geom_density() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(x = "Distribution", y = "Income", color = "")
 ```
@@ -403,7 +222,9 @@ ggplot(dat, aes(y = income, color = ind_mcar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mar, shape = ind_mar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -414,7 +235,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mar, shape = ind_mar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mar)) +
   geom_boxplot() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(y = "Income", color = "")
 ```
@@ -424,7 +247,9 @@ ggplot(dat, aes(y = income, color = ind_mar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mar)) +
   geom_density() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(x = "Distribution", y = "Income", color = "")
 ```
@@ -437,10 +262,12 @@ names(age_labs) <- c(FALSE, TRUE)
 
 ggplot(dat, aes(y = income, color = ind_mar)) +
   geom_density() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(x = "Distribution", y = "Income", color = "") +
-  facet_wrap(~age > 35, nrow = 1, labeller = labeller(`age > 35` = age_labs))
+  facet_wrap(~ age > 35, nrow = 1, labeller = labeller(`age > 35` = age_labs))
 ```
 
 ## Missing higher incomes
@@ -453,7 +280,9 @@ ggplot(dat, aes(y = income, color = ind_mar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mnar, shape = ind_mnar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -464,7 +293,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mnar, shape = ind_mnar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mnar)) +
   geom_boxplot() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(y = "Income", color = "")
 ```
@@ -474,7 +305,9 @@ ggplot(dat, aes(y = income, color = ind_mnar)) +
 ```{r}
 ggplot(dat, aes(y = income, color = ind_mnar)) +
   geom_density() +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   theme_classic() +
   labs(x = "Distribution", y = "Income", color = "")
 ```
@@ -503,7 +336,9 @@ ggplot(dat, aes(y = income, color = ind_mnar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mcar, shape = ind_mcar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -522,7 +357,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mcar, shape = ind_mcar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mar, shape = ind_mar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -541,7 +378,9 @@ ggplot(dat, aes(x = age, y = income, color = ind_mar, shape = ind_mar)) +
 ```{r}
 ggplot(dat, aes(x = age, y = income, color = ind_mnar, shape = ind_mnar)) +
   geom_point(alpha = 0.5, size = 1, stroke = 1) +
-  scale_color_manual(values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))) +
+  scale_color_manual(
+    values = c("missing" = mice::mdc(2), "observed" = mice::mdc(1))
+  ) +
   scale_shape_manual(values = c("missing" = 4, "observed" = 1)) +
   theme_classic() +
   labs(y = "Income", x = "Age", color = "", shape = "")
@@ -564,16 +403,6 @@ ggplot(dat, aes(x = age, y = income, color = ind_mnar, shape = ind_mnar)) +
     -   cannot detect this from the data
     -   difficult to deal with, need context information
 
-## Quizz
-
-Under which condition would list-wise deletion *not* lead to biased estimates?
-
-A. MCAR/not data dependent
-
-B. MAR/seen data dependent
-
-C. MNAR/unseen data dependent
-
 ## Strategies
 
 ::: {.nonincremental}
@@ -587,59 +416,87 @@ C. MNAR/unseen data dependent
     - Multiple imputation
 :::
 
-## Ad-hoc imputation methods
+## Listwise deletion
 
--   Mean imputation
--   Regression imputation
--   Last observation carried forward (LOCF)
--   Machine learning/deep learning models
+-   Analyze only the complete records
+-   Also know as: complete-case analysis
+-   Advantages
+    -   Simple (default in most software)
+    -   Unbiased only under strict conditions
+    -   Conservative standard errors, significance levels
+    -   Two special properties in regression
 
-## Ad hoc imputation in practice
+## Listwise deletion
 
-Air quality dataset
+-   Disadvantages
+    -   Wasteful
+    -   May not be possible
+    -   Larger standard errors
+    -   Biased under most conditions, even for simple statistics like the mean
+    -   Inconsistencies in reporting
 
-```{r}
-ggmice(airquality, aes(Solar.R, Ozone)) +
-  geom_point(size = 2)
-```
+<!-- ## Listwise deletion: Special properties -->
+
+<!-- -   For any regression with missing data in the predictors, estimates under listwise deletion are unbiased as long as the missingness does not depend on the outcome. Even some MNAR cases (Glynn 1986; Little 1992). -->
+<!-- -   In logistic regression only: With missing data in either the outcome $Y$ or the predictors $X$ (but not both), estimates of regression weights (but not the intercept) after listwise deletion are unbiased as long as the missingness depends only on $Y$ (and not on $X$!) (Vach 1994). This property is widely exploited in case-control studies in epidemiology. -->
+<!-- -   See FIMD 2.7: <https://stefvanbuuren.name/fimd/sec-when.html> -->
+
 
 ## Mean imputation
 
--   Replace the missing values by the mean of the observed data
--   Advantages
-    -   Simple
-    -   Unbiased only for the mean, under certain conditions
-  
-```{r duo = TRUE, fig.width=4.5, fig.height=2.25}
+- Replace the missing values by the mean of the observed data
+- Advantages
+  + Simple
+  + Unbiased for the mean, under MCAR
+
+## Mean imputation
+
+```{r}
+#| layout-ncol: 2
+#| fig-width: 5
+#| fig-height: 5
 source("R/mi.hist.R")
 
 ## ----load, eval = FALSE--------------------------------------------------
-suppressPackageStartupMessages(library("mice"))
+library("mice")
 
 ## ----meanimp, echo=TRUE--------------------------------------------------
 imp <- mice(airquality, method = "mean", m = 1, maxit = 1, print = FALSE)
 
-## ----plotmeanimp, duo = TRUE, echo=FALSE, fig.width=4.5, fig.height=2.25----
+## ----plotmeanimp, echo=FALSE----
 lwd <- 0.6
 data <- complete(imp)
-Yobs <- airquality[,"Ozone"]
-Yimp <- data[,"Ozone"]
-mi.hist(Yimp, Yobs,b=seq(-20,200,10),type="continuous",
-        gray=F,lwd = lwd,
-        obs.lwd=1.5, mis.lwd=1.5, imp.lwd=1.5,
-        obs.col=mdc(4), mis.col=mdc(5), imp.col="transparent",
-        mlt=0.08,main="",xlab="Ozone (ppb)",
-        axes = FALSE)
+Yobs <- airquality[, "Ozone"]
+Yimp <- data[, "Ozone"]
+mi.hist(
+  Yimp,
+  Yobs,
+  b = seq(-20, 200, 10),
+  type = "continuous",
+  gray = F,
+  lwd = lwd,
+  obs.lwd = 1.5,
+  mis.lwd = 1.5,
+  imp.lwd = 1.5,
+  obs.col = mdc(4),
+  mis.col = mdc(5),
+  imp.col = "transparent",
+  mlt = 0.08,
+  main = "",
+  xlab = "Ozone (ppb)",
+  axes = FALSE
+)
 box(lwd = 1)
-```
-
-## Mean imputation
-
-```{r}
-plot(data[cci(imp),2:1],col=mdc(1), lwd=1.5,ylab="Ozone (ppb)",
-     xlab="Solar Radiation (lang)",ylim=c(-10,170),
-     axes = FALSE)
-points(data[ici(imp),2:1],col=mdc(2),lwd=1.5)
+plot(
+  data[cci(imp), 2:1],
+  col = mdc(1),
+  lwd = 1.5,
+  ylab = "Ozone (ppb)",
+  xlab = "Solar Radiation (lang)",
+  ylim = c(-10, 170),
+  axes = FALSE
+)
+points(data[ici(imp), 2:1], col = mdc(2), lwd = 1.5)
 axis(1, lwd = lwd)
 axis(2, lwd = lwd, las = 1)
 box(lwd = 1)
@@ -647,95 +504,455 @@ box(lwd = 1)
 
 ## Mean imputation
 
--   Disadvantages
-    -   Disturbs the distribution
-    -   Underestimates the variance
-    -   Biases correlations to zero
-    -   Biased under MAR
--   AVOID (unless you know what you are doing)
+- Disadvantages
+  + Disturbs the distribution
+  + Underestimates the variance
+  + Biases correlations to zero
+  + Biased under MAR
+- AVOID (unless you know what you are doing)
 
 ## Regression imputation
 
--   Also known as **prediction**
-    -   Fit model for observed data under listwise deletion
-    -   Replace missing values by prediction
--   Advantages
-    -   Unbiased estimates of regression coefficients under M(C)AR
-    -   Good approximation to the (unknown) true data if explained variance is high
--   Favorite among data scientists and machine learners
+- Also known as **prediction**
+  + Fit model for $Y^{\rm obs}$ under listwise deletion
+  + Predict $Y^{\rm mis}$ for records with missing $Y$'s
+  + Replace missing values by prediction
+- Advantages
+  + Under MAR, unbiased estimates of regression coefficients
+  + Good approximation to the (unknown) true data if explained variance is high
+- Favourite among data scientists and machine learners
 
 ## Regression imputation
 
-```{r duo = TRUE, fig.width=4.5, fig.height=2.25}
+```{r}
+#| layout-ncol: 2
+#| fig-width: 5
+#| fig-height: 5
 ## ----regimp, echo=TRUE---------------------------------------------------
 fit <- lm(Ozone ~ Solar.R, data = airquality)
 pred <- predict(fit, newdata = ic(airquality))
 
 ## ----plotregimp, duo = TRUE, echo=FALSE, fig.width=4.5, fig.height=2.25----
 lwd <- 0.6
-Yobs <- airquality[,"Ozone"]
+Yobs <- airquality[, "Ozone"]
 Yimp <- Yobs
 Yimp[ici(airquality)] <- pred
 ss <- cci(airquality$Solar.R)
-data <- data.frame(Ozone=Yimp, Solar.R=airquality$Solar.R)
-mi.hist(Yimp[ss], Yobs[ss],b=seq(-20,200,10),type="continuous",
-        gray=F, lwd = lwd,
-        obs.lwd=1.5, mis.lwd=1.5, imp.lwd=1.5,
-        obs.col=mdc(4),mis.col=mdc(5), imp.col="transparent",
-        mlt=0.08,main="",xlab="Ozone (ppb)", axes = FALSE)
+data <- data.frame(Ozone = Yimp, Solar.R = airquality$Solar.R)
+mi.hist(
+  Yimp[ss],
+  Yobs[ss],
+  b = seq(-20, 200, 10),
+  type = "continuous",
+  gray = F,
+  lwd = lwd,
+  obs.lwd = 1.5,
+  mis.lwd = 1.5,
+  imp.lwd = 1.5,
+  obs.col = mdc(4),
+  mis.col = mdc(5),
+  imp.col = "transparent",
+  mlt = 0.08,
+  main = "",
+  xlab = "Ozone (ppb)",
+  axes = FALSE
+)
 box(lwd = 1)
-```
-
-## Regression imputation
-
-```{r}
-plot(data[cci(imp),2:1],col=mdc(1),lwd=1.5,
-     ylab="Ozone (ppb)", xlab="Solar Radiation (lang)",
-     ylim=c(-10,170), axes = FALSE)
-points(data[ici(imp),2:1],col=mdc(2),lwd=1.5)
+plot(
+  data[cci(imp), 2:1],
+  col = mdc(1),
+  lwd = 1.5,
+  ylab = "Ozone (ppb)",
+  xlab = "Solar Radiation (lang)",
+  ylim = c(-10, 170),
+  axes = FALSE
+)
+points(data[ici(imp), 2:1], col = mdc(2), lwd = 1.5)
 axis(1, lwd = lwd)
 axis(2, lwd = lwd, las = 1)
 box(lwd = 1)
-
 ```
 
 ## Regression imputation
 
--   Disadvantages
-    -   Artificially increases correlations
-    -   Systematically underestimates the variance
-    -   Too optimistic $p$-values and too short confidence intervals
--   AVOID. Harmful to statistical inference
+- Disadvantages
+  + Artificially increases correlations
+  + Systematically underestimates the variance
+  + Too optimistic $P$-values and too short confidence intervals
+- AVOID. Harmful to statistical inference
 
-## Case study
+## Stochastic regression imputation
 
-```{r, echo=FALSE}
-knitr::kable(tail(mice::nhanes), format = "markdown", row.names = FALSE, digits = 2)
+- Like regression imputation, but adds appropriate noise
+  to the predictions to reflect uncertainty
+- Advantages
+  + Preserves the distribution of $Y^{\rm obs}$ 
+  + Preserves the correlation between $Y$ and $X$ in the imputed data
+
+## Stochastic regression imputation
+
+```{r}
+#| layout-ncol: 2
+#| fig-width: 5
+#| fig-height: 5
+## ----sri-----------------------------------------------------------------
+data <- airquality[, c("Ozone", "Solar.R")]
+imp <- mice(
+  data,
+  method = "norm.nob",
+  m = 1,
+  maxit = 1,
+  seed = 4,
+  print = FALSE
+)
+
+## ----plotsri, duo = TRUE, echo=FALSE, fig.width=4.5, fig.height=2.25-----
+lwd <- 0.6
+data <- complete(imp)
+Yobs <- airquality[, "Ozone"]
+Yimp <- data[, "Ozone"]
+mi.hist(
+  Yimp,
+  Yobs,
+  b = seq(-20, 200, 10),
+  type = "continuous",
+  gray = FALSE,
+  lwd = lwd,
+  obs.lwd = 1.5,
+  mis.lwd = 1.5,
+  imp.lwd = 1.5,
+  obs.col = mdc(4),
+  mis.col = mdc(5),
+  imp.col = "transparent",
+  mlt = 0.08,
+  main = "",
+  xlab = "Ozone (ppb)"
+)
+box(lwd = 1)
+plot(
+  data[cci(imp), 2:1],
+  col = mdc(1),
+  lwd = 1.5,
+  ylab = "Ozone (ppb)",
+  xlab = "Solar Radiation (lang)",
+  ylim = c(-10, 170),
+  axes = FALSE
+)
+points(data[ici(imp), 2:1], col = mdc(2), lwd = 1.5)
+axis(1, lwd = lwd)
+axis(2, lwd = lwd, las = 1)
+box(lwd = 1)
 ```
 
-<br>
+## Stochastic regression imputation
 
-![](https://www.cdc.gov/nchs/nhanes/wcms-inc/VP1_734_NHANES.png)
+- Disadvantages
+  + Symmetric and constant error restrictive
+  + Single imputation: does not take uncertainty imputed data into account, and incorrectly treats them as real
+  + Not so simple anymore
 
-<!-- ## Stochastic regression imputation -->
+## Overview of assumptions needed
 
-<!-- -   Like regression imputation, but adds appropriate noise to the predictions to reflect uncertainty -->
-<!-- -   Advantages -->
-<!--     -   Preserves the distribution of $Y^\mathrm{obs}$ -->
-<!--     -   Preserves the correlation between $Y$ and $X$ in the imputed data -->
+  ------------ ------ ---------------- ------------- -------------
+                         Unbiased                    Standard Error
+                Mean     Reg Weight     Correlation
+  Listwise      MCAR        MCAR           MCAR        Too large
+  Pairwise      MCAR        MCAR           MCAR       Complicated
+  Mean          MCAR         –               –         Too small
+  Regression    MAR         MAR              –         Too small
+  Stochastic    MAR         MAR             MAR        Too small
+  LOCF           –           –               –         Too small
+  Indicator      –           –               –         Too small
+  ------------ ------ ---------------- ------------- -------------
 
-<!-- ## Stochastic regression imputation -->
+## Multiple imputation - 1987
 
-<!-- -   Disadvantages -->
-<!--     -   Symmetric and constant error restrictive -->
-<!--     -   Single imputation: does not take uncertainty imputed data into account, and incorrectly treats them as real -->
-<!--     -   Not so simple anymore -->
-
-
-## Cursuswebsite
-
-![](QR.png)
-
-[https://hanneoberman.github.io/antonius](https://hanneoberman.github.io/antonius){target="_blank"}
+![](img/rubin1987_cover.jpeg){fig-align="center" width=30%}
 
 
+## Multiple imputation
+
+- **Core idea**: Replace each missing value by m > 1 plausible draws rather than a single estimate.
+- **Uncertainty representation**: The variability across these draws reflects the inherent uncertainty about the unobserved true value.
+- **Implementation**: For each missing cell, generate m imputations (e.g., m = 20), resulting in m completed datasets for downstream analysis.
+
+## Multiple imputation
+
+![](img/flow.png){width="80%"}
+
+## Multiple imputation: Cons
+
+-   Need to create and work with multiple imputed data sets
+-   Presumes a fairly well-developed idea of what to estimate
+-   May not always be the most statistically efficient method
+
+## Multiple imputation: Pros
+
+-   Correct point and variance estimates
+-   Splits missing data problem from complete-data analysis
+-   Theoretical properties well established
+-   Flexible, widely applicable
+
+## Acceptance of multiple imputation
+
+```{r fig.width=8, fig.height=4, solo = TRUE, fig.cap = "Source: Scopus (May 5, 2025)"}
+cit <- c(
+  # 2025, 29, 278, NA,
+  2024,
+  68,
+  677,
+  NA,
+  2023,
+  66,
+  631,
+  NA,
+  2022,
+  84,
+  663,
+  NA,
+  2021,
+  72,
+  594,
+  NA,
+  2020,
+  67,
+  546,
+  NA,
+  2019,
+  63,
+  471,
+  NA,
+  2018,
+  66,
+  417,
+  NA,
+  2017,
+  73,
+  367,
+  NA,
+  2016,
+  84,
+  335,
+  NA,
+  2015,
+  62,
+  312,
+  NA,
+  2014,
+  60,
+  291,
+  NA,
+  2013,
+  46,
+  231,
+  NA,
+  2012,
+  47,
+  215,
+  NA,
+  2011,
+  56,
+  182,
+  NA,
+  2010,
+  45,
+  158,
+  NA,
+  2009,
+  37,
+  112,
+  NA,
+  2008,
+  29,
+  104,
+  NA,
+  2007,
+  35,
+  114,
+  NA,
+  2006,
+  19,
+  77,
+  NA,
+  2005,
+  21,
+  62,
+  NA,
+  2004,
+  7,
+  44,
+  NA,
+  2003,
+  18,
+  38,
+  NA,
+  2002,
+  16,
+  38,
+  NA,
+  2001,
+  14,
+  36,
+  57,
+  2000,
+  8,
+  19,
+  33,
+  1999,
+  6,
+  18,
+  47,
+  1998,
+  6,
+  12,
+  22,
+  1997,
+  6,
+  17,
+  29,
+  1996,
+  5,
+  12,
+  28,
+  1995,
+  3,
+  5,
+  20,
+  1994,
+  4,
+  6,
+  34,
+  1993,
+  3,
+  6,
+  15,
+  1992,
+  NA,
+  4,
+  NA,
+  1991,
+  3,
+  4,
+  19,
+  1990,
+  2,
+  3,
+  15,
+  1989,
+  NA,
+  2,
+  11,
+  1988,
+  NA,
+  1,
+  13,
+  1987,
+  NA,
+  2,
+  10,
+  1986,
+  2,
+  3,
+  5,
+  1985,
+  NA,
+  NA,
+  1,
+  1984,
+  NA,
+  1,
+  2,
+  1983,
+  NA,
+  NA,
+  5,
+  1982,
+  NA,
+  NA,
+  2,
+  1981,
+  NA,
+  NA,
+  1,
+  1980,
+  NA,
+  NA,
+  5,
+  1979,
+  NA,
+  NA,
+  2,
+  1978,
+  NA,
+  NA,
+  1,
+  1977,
+  NA,
+  NA,
+  2
+)
+cit <- matrix(cit, nc = 4, byrow = TRUE)
+cit <- as.data.frame(cit)
+names(cit) <- c("Year", "Title", "Abstract", "All")
+par(cex = 0.7, lwd = 0.5)
+plot(
+  x = cit$Year,
+  y = cit$Abstract,
+  type = "n",
+  xlim = c(1980, 2026),
+  ylim = c(1, 700),
+  ylab = "Number of publications",
+  xlab = "Year",
+  pch = 24,
+  bg = "white",
+  axes = FALSE
+)
+# fills <- viridisLite::viridis(10, alpha = 0.3, option = "D", direction = -1)
+# rect(xleft = 1975, ybottom = 1, xright = 1996, ytop = 700,
+#      col = fills[1], border = NA)
+# rect(xleft = 1996, ybottom = 1, xright = 2004, ytop = 700,
+#      col = fills[2], border = NA)
+# rect(xleft = 2004, ybottom = 1, xright = 2012, ytop = 700,
+#      col = fills[3], border = NA)
+# rect(xleft = 2012, ybottom = 1, xright = 2023, ytop = 700,
+#      col = fills[4], border = NA)
+axis(1, at = seq(1980, 2025, 5), lwd = par("lwd"))
+axis(2, lwd = par("lwd"), las = 1)
+lines(
+  x = cit$Year,
+  y = cit$Title,
+  pch = 15,
+  cex = 0.8,
+  type = "o",
+  col = mdc(1)
+)
+lines(
+  x = cit$Year,
+  y = cit$Abstract,
+  pch = 16,
+  cex = 0.8,
+  type = "o",
+  col = mdc(1)
+)
+# lines(x=cit$Year, y=cit$All, pch=16, cex = 0.8, type="o")
+legend(
+  x = 1980,
+  y = 600,
+  legend = c(
+    '"multiple imputation" in abstract',
+    '"multiple imputation" in title'
+  ),
+  pch = c(16, 15),
+  bty = "n",
+  col = mdc(1)
+)
+```
+
+## Take aways
+
+- Missing values are a fact of life
+- Understanding why data are missing is essential
+	+ It determines whether the missingness can bias inference
+	+ It provides the basis for selecting an appropriate handling strategy
+- Missing data methods differ in validity
+- Multiple imputation is generally valid, flexible solution for handling incomplete data

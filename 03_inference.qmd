@@ -1,5 +1,5 @@
 ---
-title: "Beslissen met onvolledige informatie"
+title: "Data challenges (Onderwijs voor Professionals)"
 subtitle: "Missende data en multipele imputatie met `mice`"
 format: 
   html:
@@ -31,7 +31,7 @@ library(mice)
 library(ggmice)
 library(ggplot2)
 
-boys <- boys[,1:4]
+boys <- boys[, 1:4]
 
 help(boys)
 ?boys
@@ -83,6 +83,7 @@ For each column, the algorithm requires a specification of the imputation method
 ```{r, cache = FALSE}
 imp$meth
 ```
+
 The variable `age` is complete and therefore not imputed, denoted by the `""` empty string. The other variables have method `pmm`, which stands for *predictive mean matching*, the default in `mice` for numerical and integer data.  
 
 An up-to-date overview of the methods in mice can be found by
@@ -141,7 +142,7 @@ plot_trace(imp20)
 **6. Check whether `bmi` is indeed accurately calculated by plotting `bmi` versus `wgt/(hgt/100)^2` using `ggmice()` and `geom_point()`.**
 
 ```{r}
-ggmice(imp20, aes(x = wgt/(hgt/100)^2, y = bmi)) +
+ggmice(imp20, aes(x = wgt / (hgt / 100)^2, y = bmi)) +
   geom_point()
 ```
 
