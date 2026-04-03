@@ -208,7 +208,7 @@ $$
 
 Relative increase in variance due to non-response
 $$
-r = \frac{B + B/m}{T}
+r = \frac{B + B/m}{\bar{U}}
 $$
 
 Note: $r = \lambda/(1-\lambda), \lambda = r/(r+1)$

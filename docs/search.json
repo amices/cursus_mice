@@ -1088,7 +1088,7 @@
     "href": "slides_03_inference.html#how-much-information-is-contained-in-the-missing-data",
     "title": "Data challenges (OVP)",
     "section": "How much information is contained in the missing data?",
-    "text": "How much information is contained in the missing data?\nProportion of variance attributable to the missing data \\[\n\\lambda = \\frac{B + B/m}{T}\n\\]\nRelative increase in variance due to non-response \\[\nr = \\frac{B + B/m}{T}\n\\]\nNote: \\(r = \\lambda/(1-\\lambda), \\lambda = r/(r+1)\\)"
+    "text": "How much information is contained in the missing data?\nProportion of variance attributable to the missing data \\[\n\\lambda = \\frac{B + B/m}{T}\n\\]\nRelative increase in variance due to non-response \\[\nr = \\frac{B + B/m}{\\bar{U}}\n\\]\nNote: \\(r = \\lambda/(1-\\lambda), \\lambda = r/(r+1)\\)"
   },
   {
     "objectID": "slides_03_inference.html#pooling-inferences-in-r",
